@@ -1,30 +1,29 @@
 import java.util.ArrayList;
 
-public class Customer extends Person{
-    private int customerId;
-    private ArrayList<Account> Account;
+public class Customer extends Person {
+    private ArrayList<Account> accounts;
+    private int customerID;
 
-    public void addAccount(Account accountToAdd) {
-
+    public Customer(String name, String address, int customerID) {
+        super(name, address);
+        this.accounts = new ArrayList<>();
+        this.customerID = customerID;
     }
 
-    public void removeAccount( Account accountToDelete) {
-
+    public int getCustomerID() {
+        return customerID;
     }
 
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
+    public void addAccount(Account account) {
+        accounts.add(account); // removes first occurrence of the element of account
     }
 
-    public int getCustomerId() {
-        return customerId;
+    public void removeAccount(Account account) {
+        accounts.remove(account); // removes first occurrence of the element of account
     }
 
-    public void setAccount(ArrayList<Account> account) {
-        Account = account;
-    }
-
-    public ArrayList<Account> getAccount() {
-        return Account;
+    public Account inquireAccount(String accountNumber) {
+        // find and retun account
+        return null;
     }
 }

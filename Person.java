@@ -1,12 +1,9 @@
 public class Person {
-    private String name;
-    private String address;
+    protected String name;
+    protected String address;
 
-    public void setName(String name) {
+    public Person(String name, String address) {
         this.name = name;
-    }
-
-    public void setAddress(String address) {
         this.address = address;
     }
 

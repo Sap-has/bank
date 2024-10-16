@@ -1,51 +1,44 @@
 public abstract class Account {
-    private int accountNumber;
+    private String accountNumber;
     private double balance;
     private Person owner;
 
-    public Account() {
-        
-    }
-
-    public void inquireBalance() {
-
-    }
-
-    public void deposit(double amount) {
-
-    }
-
-    public void withdraw(double amount) {
-
-    }
-
-    public void transfer(Account toAccount, double amount) {
-
-    }
-
-    public void setAccountNumber(int accountNumber) {
+    public Account(String accountNumber, Person owner, double balance) {
         this.accountNumber = accountNumber;
-    }
-
-    public void setBalance(double balance) {
+        this.owner = owner;
         this.balance = balance;
     }
 
-    public void setOwner(Person owner) {
-        this.owner = owner;
+    public String getAccountNumber() {
+        return accountNumber;
     }
 
-    public int getAccountNumber() {
-        return accountNumber;
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
     }
 
     public double getBalance() {
         return balance;
     }
 
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
     public Person getOwner() {
         return owner;
     }
 
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
 
+    public abstract void deposit(double amount);
+
+    public abstract void withdraw(double amount) throws Exception;
+
+    public abstract void transfer(Account toAccount, double amount) throws Exception;
+
+    public abstract void inquireBalance();
+    
 }
