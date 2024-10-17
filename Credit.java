@@ -1,9 +1,11 @@
 public class Credit extends Account {
     private double creditLimit;
+    private double principle;
 
-    public Credit(String accountNumber, Person owner, double balance, double creditLimit) {
+    public Credit(String accountNumber, Person owner, double balance, double creditLimit, double principle) {
         super(accountNumber, owner, balance);
         this.creditLimit = creditLimit;
+        this.principle = principle;
     }
 
     public double getCreditLimit() {
@@ -14,9 +16,17 @@ public class Credit extends Account {
         this.creditLimit = creditLimit;
     }
 
+    public double getPrinciple() {
+        return principle;
+    }
+
+    public void setPrinciple(double principle) {
+        this.principle = principle;
+    }
+
     @Override
     public void deposit(double amount) {
-        // TODO implement deposit if needed at all
+        // TODO implement deposit, pay back principle
     }
 
     @Override

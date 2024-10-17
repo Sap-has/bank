@@ -1,12 +1,12 @@
 import java.util.ArrayList;
 
 public class Customer extends Person {
-    private ArrayList<Account> accounts;
+    private ArrayList<Account> accountList;
     private int customerID;
 
     public Customer(String name, String address, int customerID) {
         super(name, address);
-        this.accounts = new ArrayList<>();
+        this.accountList = new ArrayList<>();
         this.customerID = customerID;
     }
 
@@ -14,12 +14,16 @@ public class Customer extends Person {
         return customerID;
     }
 
+    public void setCustomerID(int customerID) {
+        this.customerID = customerID;
+    }
+
     public void addAccount(Account account) {
-        accounts.add(account); // removes first occurrence of the element of account
+        accountList.add(account); // removes first occurrence of the element of account
     }
 
     public void removeAccount(Account account) {
-        accounts.remove(account); // removes first occurrence of the element of account
+        accountList.remove(account); // removes first occurrence of the element of account
     }
 
     public Account inquireAccount(String accountNumber) {
