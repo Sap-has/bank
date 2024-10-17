@@ -31,7 +31,7 @@ public class Credit extends Account {
 
     @Override
     public void withdraw(double amount) throws Exception {
-        // TODO withdraw maybe?
+        // TODO withdraw, increase principle and don't exceed credit limit
     }
 
     // just cust i need to implement the abstract method
