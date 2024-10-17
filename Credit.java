@@ -34,10 +34,9 @@ public class Credit extends Account {
         // TODO withdraw, increase principle and don't exceed credit limit
     }
 
-    // just cust i need to implement the abstract method
     @Override
     public void transfer(Account toAccount, double amount) throws Exception {
-        throw new Exception("Transfers are not allowed from a credit account.");
+        // TODO transfer money, don't exceed credit limit, increase principle
     }
 
     @Override
