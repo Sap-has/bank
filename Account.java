@@ -40,5 +40,4 @@ public abstract class Account {
     public abstract void transfer(Account toAccount, double amount) throws Exception;
 
     public abstract void inquireBalance();
-    
 }

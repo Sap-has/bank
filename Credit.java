@@ -26,22 +26,41 @@ public class Credit extends Account {
 
     @Override
     public void deposit(double amount) {
-        // TODO implement deposit, pay back principle
+        if (amount > 0) {
+            setBalance(getBalance() + amount);
+            principle -= amount; // pay back principle
+            TransactionLog log = new TransactionLog();
+            log.logTransaction("Deposited " + amount + " to Credit Account " + getAccountNumber());
+            log.saveLog();
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
     }
 
     @Override
     public void withdraw(double amount) throws Exception {
-        // TODO withdraw, increase principle and don't exceed credit limit
+        if (amount > 0 && (getBalance() + (creditLimit - principle)) >= amount) {
+            principle += amount;
+            setBalance(getBalance() - amount);
+            TransactionLog log = new TransactionLog();
+            log.logTransaction("Withdrew " + amount + " from Credit Account " + getAccountNumber());
+            log.saveLog();
+        } else {
+            throw new Exception("Credit limit exceeded for withdrawal.");
+        }
     }
 
     @Override
     public void transfer(Account toAccount, double amount) throws Exception {
-        // TODO transfer money, don't exceed credit limit, increase principle
+        withdraw(amount);
+        toAccount.deposit(amount);
+        TransactionLog log = new TransactionLog();
+        log.logTransaction("Transferred " + amount + " from Credit Account " + getAccountNumber() + " to " + toAccount.getAccountNumber());
+        log.saveLog();
     }
 
     @Override
     public void inquireBalance() {
-        // TODO can you get a balance from a credit card?
-        
+        System.out.println("Balance in Credit Account " + getAccountNumber() + ": " + getBalance() + " (Principle: " + principle + ")");
     }
 }

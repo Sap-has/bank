@@ -16,22 +16,39 @@ public class Checking extends Account {
 
     @Override
     public void deposit(double amount) {
-        // TODO Deposit money into account and properly log the entry
+        if (amount > 0) {
+            setBalance(getBalance() + amount);
+            TransactionLog log = new TransactionLog();
+            log.logTransaction("Deposited " + amount + " to Checking Account " + getAccountNumber());
+            log.saveLog();
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
     }
 
     @Override
     public void withdraw(double amount) throws Exception {
-        // TODO Witthdraw money, log entry, throw error with message
+        if (amount > 0 && (getBalance() + overdraftLimit) >= amount) {
+            setBalance(getBalance() - amount);
+            TransactionLog log = new TransactionLog();
+            log.logTransaction("Withdrew " + amount + " from Checking Account " + getAccountNumber());
+            log.saveLog();
+        } else {
+            throw new Exception("Insufficient funds for withdrawal.");
+        }
     }
 
     @Override
     public void transfer(Account toAccount, double amount) throws Exception {
-        // TODO Transfer moeny, log 2 entries, throw error with message
+        withdraw(amount);
+        toAccount.deposit(amount);
+        TransactionLog log = new TransactionLog();
+        log.logTransaction("Transferred " + amount + " from Checking Account " + getAccountNumber() + " to " + toAccount.getAccountNumber());
+        log.saveLog();
     }
 
     @Override
     public void inquireBalance() {
-        // TODO print balance and log entry
-       
+        System.out.println("Balance in Checking Account " + getAccountNumber() + ": " + getBalance());
     }
 }

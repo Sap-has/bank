@@ -19,15 +19,19 @@ public class Customer extends Person {
     }
 
     public void addAccount(Account account) {
-        accountList.add(account); // removes first occurrence of the element of account
+        accountList.add(account);
     }
 
     public void removeAccount(Account account) {
-        accountList.remove(account); // removes first occurrence of the element of account
+        accountList.remove(account);
     }
 
     public Account inquireAccount(String accountNumber) {
-        // find and retun account
-        return null;
+        for (Account account : accountList) {
+            if (account.getAccountNumber().equals(accountNumber)) {
+                return account;
+            }
+        }
+        return null; // if not found
     }
 }

@@ -15,26 +15,48 @@ public class Saving extends Account {
     }
 
     public void applyInterest() {
-        // TODO apply an interest, log entry
+        double interest = getBalance() * interestRate;
+        deposit(interest);
+        TransactionLog log = new TransactionLog();
+        log.logTransaction("Applied interest of " + interest + " to Saving Account " + getAccountNumber());
+        log.saveLog();
     }
 
     @Override
     public void deposit(double amount) {
-        // TODO deposit
+        if (amount > 0) {
+            setBalance(getBalance() + amount);
+            TransactionLog log = new TransactionLog();
+            log.logTransaction("Deposited " + amount + " to Saving Account " + getAccountNumber());
+            log.saveLog();
+        } else {
+            System.out.println("Invalid deposit amount.");
+        }
     }
 
     @Override
     public void withdraw(double amount) throws Exception {
-        // TODO withdraw
+        if (amount > 0 && getBalance() >= amount) {
+            setBalance(getBalance() - amount);
+            TransactionLog log = new TransactionLog();
+            log.logTransaction("Withdrew " + amount + " from Saving Account " + getAccountNumber());
+            log.saveLog();
+        } else {
+            throw new Exception("Insufficient funds for withdrawal.");
+        }
     }
 
     @Override
     public void transfer(Account toAccount, double amount) throws Exception {
-        // TODO transfer
+        withdraw(amount);
+        toAccount.deposit(amount);
+        TransactionLog log = new TransactionLog();
+        log.logTransaction("Transferred " + amount + " from Saving Account " + getAccountNumber() + " to " + toAccount.getAccountNumber());
+        log.saveLog();
     }
 
     @Override
     public void inquireBalance() {
-        // TODO print balance
+        System.out.println("Balance in Saving Account " + getAccountNumber() + ": " + getBalance());
     }
 }
