@@ -36,10 +36,15 @@ public class RunBank {
                 System.out.println("2. Saving");
                 System.out.println("3. Credit");
 
+                int ID = Integer.parseInt(user_inS);
+
                 user_inS = user_in.nextLine();
                 while(!user_inS.equals("1") && !user_inS.equals("2") && !user_inS.equals("3")) {
                     switch (user_inS) {
                         case "1": // checking
+                            // call respective classes
+                            // do changed on csv file
+                            Checking currUser = new Checking(bankUsers.get(ID)[6], new Person(bankUsers.get(ID)[1], bankUsers.get(ID)[2]), Double.parseDouble(bankUsers.get(ID)[7]), 500);
                             System.out.println("1"); 
                             break;
                         case "2": // saving
