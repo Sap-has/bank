@@ -1,4 +1,5 @@
 /**
+ * Creates a checking account
  * @author Epifanio Sarinana
  * @author Kayra Dominguez
  */
