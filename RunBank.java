@@ -37,7 +37,7 @@ public class RunBank {
                 user_inS = user_in.nextLine();
                 int id = Integer.parseInt(user_inS);
                 if (bankUsers.containsKey(id)) {
-                    handleUser(Integer.parseInt(user_inS), bankUsers, user_in);
+                    handleUser(id, bankUsers, user_in);
                 } else {
                     System.out.println("ID does not exist.");
                 }
