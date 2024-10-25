@@ -10,65 +10,118 @@ public class RunBank {
         Scanner user_in = new Scanner(System.in);
         String user_inS;
 
-        String firstLine = bank_users.nextLine(); // add to new bank users csv file
-        while(bank_users.hasNextLine()){
+        // Load the bank users from CSV file into the HashMap
+        String firstLine = bank_users.nextLine(); // Read the header
+        while (bank_users.hasNextLine()) {
             String line = bank_users.nextLine();
             String[] information = line.split(",");
             bankUsers.put(Integer.parseInt(information[0]), information);
         }
         bank_users.close();
-        System.out.println((bankUsers.get(79))[2]);
 
         System.out.println("Welcome to the Bank System");
-        System.out.println("Enter exit to exit program");
-        
+        System.out.println("Enter 'exit' to exit the program");
+
         do {
-            // ask for id
-            // check if its a valid id
-            System.out.println("Inquire about account by inputing your ID: ");
-            user_inS = user_in.nextLine().toUpperCase();
-            if(bankUsers.get(Integer.parseInt(user_inS)) == null) {
-                System.out.println("ID does not exist");
-                continue;
-            } else {
-                System.out.println("Which account will you like to access?");
-                System.out.println("1. Checking");
-                System.out.println("2. Saving");
-                System.out.println("3. Credit");
+            System.out.println("Are you a User or Bank Manager?");
+            System.out.println("1. User");
+            System.out.println("2. Bank Manager");
 
-                int ID = Integer.parseInt(user_inS);
+            user_inS = user_in.nextLine();
 
-                user_inS = user_in.nextLine();
-                while(!user_inS.equals("1") && !user_inS.equals("2") && !user_inS.equals("3")) {
-                    switch (user_inS) {
-                        case "1": // checking
-                            // call respective classes
-                            // do changed on csv file
-                            Checking currUser = new Checking(bankUsers.get(ID)[6], new Person(bankUsers.get(ID)[1], bankUsers.get(ID)[2]), Double.parseDouble(bankUsers.get(ID)[7]), 500);
-                            System.out.println("1"); 
-                            break;
-                        case "2": // saving
-                            System.out.println("2"); 
-                            break;
-                        case "3": // credit
-                            System.out.println("3"); 
-                            break;
-                        default:
-                            System.out.println("Pick a valid operation");
-                            System.out.println("Which account will you like to access?");
-                            System.out.println("1. Checking");
-                            System.out.println("2. Saving");
-                            System.out.println("3. Credit");
-                            user_inS = user_in.nextLine();
-                            break;
-                    }
-                }
+            if (user_inS.equalsIgnoreCase("exit")) {
+                break;
             }
 
+            if (user_inS.equals("1")) { // Customer actions
+                System.out.println("Inquire about your account by inputting your ID:");
+                user_inS = user_in.nextLine();
+                handleUser(Integer.parseInt(user_inS), bankUsers, user_in);
 
-
-        } while (!"EXIT".equals(user_inS));
+            } else if (user_inS.equals("2")) { // Bank manager actions
+                System.out.println("Please input the customer ID you want to access:");
+                user_inS = user_in.nextLine();
+                int id = Integer.parseInt(user_inS);
+                if (bankUsers.containsKey(id)) {
+                    handleUser(id, bankUsers, user_in);
+                } else {
+                    System.out.println("ID does not exist.");
+                }
+            } else {
+                System.out.println("Please choose correctly.");
+            }
+        } while (!user_inS.equalsIgnoreCase("exit"));
 
         user_in.close();
+        System.out.println("Thank you for using the Bank System.");
+    }
+}
+
+public static void handleUser(int ID, HashMap<Integer, String[]> bankUsers, Scanner user_in) {
+    String[] userInfo = bankUsers.get(ID);
+
+    System.out.println("Which account would you like to access?");
+    System.out.println("1. Checking");
+    System.out.println("2. Saving");
+    System.out.println("3. Credit");
+
+    String userChoice = user_in.nextLine();
+
+    switch (userChoice) {
+        case "1": // Checking Account
+            Checking checkingAccount = new Checking(userInfo[6], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[7]), 500d);
+            performAccountOperations(checkingAccount, user_in);
+            break;
+        case "2": // Savings Account
+            Saving savingAccount = new Saving(userInfo[8], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[9]), 0.02);
+            performAccountOperations(savingAccount, user_in);
+            break;
+        case "3": // Credit Account
+            Credit creditAccount = new Credit(userInfo[10], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[12]), Double.parseDouble(userInfo[11]), 0d);
+            performAccountOperations(creditAccount, user_in);
+            break;
+        default:
+            System.out.println("Invalid option.");
+    }
+}
+
+public static void performAccountOperations(Account account, Scanner user_in) {
+    System.out.println("Hello " + account.getOwner().getName());
+    System.out.println("What would you like to do?");
+    System.out.println("1. Inquire Balance");
+    System.out.println("2. Deposit");
+    System.out.println("3. Withdraw");
+    System.out.println("4. Transfer");
+
+    String action = user_in.nextLine();
+
+    switch (action) {
+        case "1": // Inquire Balance
+            System.out.println("Your current balance is: " + account.inquireBalance());
+            break;
+        case "2": // Deposit
+            System.out.println("Enter deposit amount:");
+            double depositAmount = Double.parseDouble(user_in.nextLine());
+            account.deposit(depositAmount);
+            System.out.println("Deposit successful. Your new balance is: " + account.inquireBalance());
+            break;
+        case "3": // Withdraw
+            System.out.println("Enter withdraw amount:");
+            double withdrawAmount = Double.parseDouble(user_in.nextLine());
+            account.withdraw(withdrawAmount);
+            System.out.println("Withdraw successful. Your new balance is: " + account.inquireBalance());
+            break;
+        case "4": // Transfer
+            System.out.println("Enter recipient's ID:");
+            int recipientID = Integer.parseInt(user_in.nextLine());
+            System.out.println("Enter account type to transfer to (1: Checking, 2: Saving, 3: Credit):");
+            String recipientAccountType = user_in.nextLine();
+            System.out.println("Enter transfer amount:");
+            double transferAmount = Double.parseDouble(user_in.nextLine());
+
+            System.out.println("Transfer successful.");
+            break;
+        default:
+            System.out.println("Invalid option.");
     }
 }

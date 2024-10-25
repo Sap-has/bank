@@ -2,7 +2,7 @@ public class Credit extends Account {
     private double creditLimit;
     private double principle;
 
-    public Credit(String accountNumber, Person owner, double balance, double creditLimit, double principle) {
+    public Credit(String accountNumber, Customer owner, double balance, double creditLimit, double principle) {
         super(accountNumber, owner, balance);
         this.creditLimit = creditLimit;
         this.principle = principle;
@@ -28,7 +28,7 @@ public class Credit extends Account {
     public void deposit(double amount) {
         if (amount > 0) {
             setBalance(getBalance() + amount);
-            principle -= amount; // pay back principle
+            principle += amount; // pay back principle
             TransactionLog log = new TransactionLog();
             log.logTransaction("Deposited " + amount + " to Credit Account " + getAccountNumber());
             log.saveLog();
@@ -39,8 +39,8 @@ public class Credit extends Account {
 
     @Override
     public void withdraw(double amount) throws Exception {
-        if (amount > 0 && (getBalance() + (creditLimit - principle)) >= amount) {
-            principle += amount;
+        if (amount > 0 && Math.abs(getBalance()) >= amount && (creditLimit - Math.abs(getBalance())) >= amount) {
+            principle -= amount;
             setBalance(getBalance() - amount);
             TransactionLog log = new TransactionLog();
             log.logTransaction("Withdrew " + amount + " from Credit Account " + getAccountNumber());
@@ -60,7 +60,7 @@ public class Credit extends Account {
     }
 
     @Override
-    public void inquireBalance() {
-        System.out.println("Balance in Credit Account " + getAccountNumber() + ": " + getBalance() + " (Principle: " + principle + ")");
+    public String inquireBalance() {
+        return "Balance in Credit Account " + getAccountNumber() + ": " + getBalance() + " (Principle: " + principle + ")";
     }
 }

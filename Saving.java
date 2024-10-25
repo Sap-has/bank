@@ -1,7 +1,7 @@
 public class Saving extends Account {
     private double interestRate;
 
-    public Saving(String accountNumber, Person owner, double balance, double interestRate) {
+    public Saving(String accountNumber, Customer owner, double balance, double interestRate) {
         super(accountNumber, owner, balance);
         this.interestRate = interestRate;
     }
@@ -56,7 +56,7 @@ public class Saving extends Account {
     }
 
     @Override
-    public void inquireBalance() {
-        System.out.println("Balance in Saving Account " + getAccountNumber() + ": " + getBalance());
+    public String inquireBalance() {
+        return "Balance in Saving Account " + getAccountNumber() + ": " + getBalance();
     }
 }

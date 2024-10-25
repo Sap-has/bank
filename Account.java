@@ -13,7 +13,7 @@ public abstract class Account {
      * @param owner person who owns bank account
      * @param balance balance in the bank account
      */
-    public Account(String accountNumber, Person owner, double balance) {
+    public Account(String accountNumber, Customer owner, double balance) {
         this.accountNumber = accountNumber;
         this.owner = owner;
         this.balance = balance;
@@ -67,5 +67,5 @@ public abstract class Account {
 
     public abstract void transfer(Account toAccount, double amount) throws Exception;
 
-    public abstract void inquireBalance();
+    public abstract String inquireBalance();
 }

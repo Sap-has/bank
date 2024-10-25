@@ -1,7 +1,7 @@
 public class Checking extends Account {
     private double overdraftLimit;
 
-    public Checking(String accountNumber, Person owner, double balance, double overdraftLimit) {
+    public Checking(String accountNumber, Customer owner, double balance, double overdraftLimit) {
         super(accountNumber, owner, balance);
         this.overdraftLimit = overdraftLimit;
     }
@@ -48,7 +48,7 @@ public class Checking extends Account {
     }
 
     @Override
-    public void inquireBalance() {
-        System.out.println("Balance in Checking Account " + getAccountNumber() + ": " + getBalance());
+    public String inquireBalance() {
+        return "Balance in Checking Account " + getAccountNumber() + ": " + getBalance() ;
     }
 }
