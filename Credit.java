@@ -62,7 +62,7 @@ public class Credit extends Account {
             setBalance(getBalance() + amount);
             principle += amount; // pay back principle
             TransactionLog log = new TransactionLog();
-            log.logTransaction("Deposited " + amount + " to Credit Account " + getAccountNumber());
+            log.logTransaction(getOwner().getName() + " deposited $" + amount + " to Saving Account " + getAccountNumber() + ". New saving account balance: $" + getBalance());
             log.saveLog();
         } else {
             System.out.println("Invalid deposit amount.");
@@ -79,7 +79,7 @@ public class Credit extends Account {
             principle -= amount;
             setBalance(getBalance() - amount);
             TransactionLog log = new TransactionLog();
-            log.logTransaction("Withdrew " + amount + " from Credit Account " + getAccountNumber());
+            log.logTransaction(getOwner().getName() + " deposited $" + amount + " to Saving Account " + getAccountNumber() + ". New saving account balance: $" + getBalance());
             log.saveLog();
         } else {
             throw new Exception("Credit limit exceeded for withdrawal.");
@@ -96,7 +96,7 @@ public class Credit extends Account {
         withdraw(amount);
         toAccount.deposit(amount);
         TransactionLog log = new TransactionLog();
-        log.logTransaction("Transferred " + amount + " from Credit Account " + getAccountNumber() + " to " + toAccount.getAccountNumber());
+        log.logTransaction(getOwner().getName() + " transferred " + amount + " from Checking Account " + getAccountNumber() + " to " + toAccount.getOwner().getName() + "'s to " + toAccount.getAccountNumber());
         log.saveLog();
     }
 

@@ -42,7 +42,7 @@ public class Checking extends Account {
         if (amount > 0) {
             setBalance(getBalance() + amount);
             TransactionLog log = new TransactionLog();
-            log.logTransaction("Deposited " + amount + " to Checking Account " + getAccountNumber());
+            log.logTransaction(getOwner().getName() + " deposited $" + amount + " to Checking Account " + getAccountNumber() + ". New checking account balance: $" + getBalance());
             log.saveLog();
         } else {
             System.out.println("Invalid deposit amount.");
@@ -58,7 +58,7 @@ public class Checking extends Account {
         if (amount > 0 && (getBalance() + overdraftLimit) >= amount) {
             setBalance(getBalance() - amount);
             TransactionLog log = new TransactionLog();
-            log.logTransaction("Withdrew " + amount + " from Checking Account " + getAccountNumber());
+            log.logTransaction(getOwner().getName() + " withdrew $" + amount + " to Checking Account " + getAccountNumber() + ". New checking account balance: $" + getBalance());
             log.saveLog();
         } else {
             throw new Exception("Insufficient funds for withdrawal.");
@@ -75,7 +75,7 @@ public class Checking extends Account {
         withdraw(amount);
         toAccount.deposit(amount);
         TransactionLog log = new TransactionLog();
-        log.logTransaction("Transferred " + amount + " from Checking Account " + getAccountNumber() + " to " + toAccount.getAccountNumber());
+        log.logTransaction(getOwner().getName() + " transferred " + amount + " from Checking Account " + getAccountNumber() + " to " + toAccount.getOwner().getName() + "'s to " + toAccount.getAccountNumber());
         log.saveLog();
     }
 
