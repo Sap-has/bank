@@ -6,7 +6,7 @@
 public abstract class Account {
     private String accountNumber;
     private double balance;
-    private Person owner;
+    private Customer owner;
 
     /**
      * @param accountNumber bank account number
@@ -50,14 +50,14 @@ public abstract class Account {
     /**
      * @return Person that owns the bank account
      */
-    public Person getOwner() {
+    public Customer getOwner() {
         return owner;
     }
 
     /**
      * @param owner the Person who owns the bank account
      */
-    public void setOwner(Person owner) {
+    public void setOwner(Customer owner) {
         this.owner = owner;
     }
 

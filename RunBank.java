@@ -4,8 +4,9 @@ import java.util.Scanner;
 import java.io.File;
 
 public class RunBank {
+    static HashMap<Integer, String[]> bankUsers = new HashMap<>();
     public static void main(String[] args) throws IOException{
-        HashMap<Integer, String[]> bankUsers = new HashMap<>();
+        
         Scanner bank_users = new Scanner(new File("info\\Bank Users.csv"));
         Scanner user_in = new Scanner(System.in);
         String user_inS;
@@ -106,6 +107,10 @@ public static void performAccountOperations(Account account, Scanner user_in) {
             System.out.println("Enter deposit amount:");
             double depositAmount = Double.parseDouble(user_in.nextLine());
             account.deposit(depositAmount);
+            double newBalance = Double.parseDouble(bankUsers.get(account.getOwner().getCustomerID())[7]) + depositAmount;
+            String[] updatedBalance = bankUsers.get(account.getOwner().getCustomerID());
+            updatedBalance[7] = Double.toString(depositAmount);
+            bankUsers.put((Integer)account.getOwner().getCustomerID(), updatedBalance);
             System.out.println("Deposit successful. Your new balance is: " + account.inquireBalance());
             break;
         case "3": // Withdraw
