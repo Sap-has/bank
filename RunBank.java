@@ -100,7 +100,7 @@ public static void performAccountOperations(Account account, Scanner user_in) {
 
     switch (action) {
         case "1": // Inquire Balance
-            System.out.println("Your current balance is: " + account.inquireBalance());
+            System.out.println(account.inquireBalance());
             break;
         case "2": // Deposit
             System.out.println("Enter deposit amount:");
@@ -117,7 +117,7 @@ public static void performAccountOperations(Account account, Scanner user_in) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            System.out.println("Withdraw successful. Your new balance is: " + account.inquireBalance());
+            System.out.println(account.inquireBalance());
             break;
         case "4": // Transfer
             System.out.println("Enter recipient's ID:");
