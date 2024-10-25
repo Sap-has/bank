@@ -109,7 +109,7 @@ public static void performAccountOperations(Account account, Scanner user_in) {
             account.deposit(depositAmount);
             double newBalance = Double.parseDouble(bankUsers.get(account.getOwner().getCustomerID())[7]) + depositAmount;
             String[] updatedBalance = bankUsers.get(account.getOwner().getCustomerID());
-            updatedBalance[7] = Double.toString(depositAmount);
+            updatedBalance[7] = Double.toString(newBalance);
             bankUsers.put((Integer)account.getOwner().getCustomerID(), updatedBalance);
             System.out.println("Deposit successful. Your new balance is: " + account.inquireBalance());
             break;
