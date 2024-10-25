@@ -14,7 +14,7 @@ public class RunBank {
         String firstLine = bank_users.nextLine(); // Read the header
         while (bank_users.hasNextLine()) {
             String line = bank_users.nextLine();
-            String[] information = line.split(",");
+            String[] information = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
             bankUsers.put(Integer.parseInt(information[0]), information);
         }
         bank_users.close();
