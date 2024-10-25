@@ -32,12 +32,15 @@ public class RunBank {
             if (user_inS.equalsIgnoreCase("exit")) {
                 break;
             }
-
             if (user_inS.equals("1")) { // Customer actions
                 System.out.println("Inquire about your account by inputting your ID:");
                 user_inS = user_in.nextLine();
-                handleUser(Integer.parseInt(user_inS), bankUsers, user_in);
-
+                int id = Integer.parseInt(user_inS);
+                if (bankUsers.containsKey(id)) {
+                    handleUser(Integer.parseInt(user_inS), bankUsers, user_in);
+                } else {
+                    System.out.println("ID does not exist.");
+                }
             } else if (user_inS.equals("2")) { // Bank manager actions
                 System.out.println("Please input the customer ID you want to access:");
                 user_inS = user_in.nextLine();
@@ -55,7 +58,7 @@ public class RunBank {
         user_in.close();
         System.out.println("Thank you for using the Bank System.");
     }
-}
+
 
 public static void handleUser(int ID, HashMap<Integer, String[]> bankUsers, Scanner user_in) {
     String[] userInfo = bankUsers.get(ID);
@@ -108,7 +111,12 @@ public static void performAccountOperations(Account account, Scanner user_in) {
         case "3": // Withdraw
             System.out.println("Enter withdraw amount:");
             double withdrawAmount = Double.parseDouble(user_in.nextLine());
-            account.withdraw(withdrawAmount);
+            try {
+                account.withdraw(withdrawAmount);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
             System.out.println("Withdraw successful. Your new balance is: " + account.inquireBalance());
             break;
         case "4": // Transfer
@@ -124,4 +132,5 @@ public static void performAccountOperations(Account account, Scanner user_in) {
         default:
             System.out.println("Invalid option.");
     }
+}
 }
