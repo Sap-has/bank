@@ -90,6 +90,7 @@ public class RunBank {
                 break;
             default:
                 System.out.println("Invalid option.");
+                break;
         }
     }
 
@@ -118,6 +119,7 @@ public class RunBank {
                 break;
             default:
                 System.out.println("Invalid option.");
+                break;
         }
     }
 
@@ -127,17 +129,62 @@ public class RunBank {
         // withdraw persons account
         System.out.println("Enter recipient's ID:");
         int recipientID = Integer.parseInt(user_in.nextLine());
-        if (bankUsers.containsKey(recipientID)) {
-            handleUser(recipientID, bankUsers, user_in);
-        } else {
+        if (!bankUsers.containsKey(recipientID)) {
             System.out.println("ID does not exist.");
+        } else {
+            String[] userInfo = bankUsers.get(recipientID);
+            System.out.println("Enter account type to transfer to (1: Checking, 2: Saving, 3: Credit):");
+            String recipientAccountType = user_in.nextLine();
+            double transferAmount = 0;
+            switch (recipientAccountType) {
+                case "1": // Checking Account
+                    Checking checkingAccount = new Checking(userInfo[6], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], recipientID), Double.parseDouble(userInfo[7]), 500d);
+                    x = 7;
+                    System.out.println("Enter transfer amount:");
+                    transferAmount = Double.parseDouble(user_in.nextLine());
+                    try {
+                        account.withdraw(transferAmount);
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    checkingAccount.deposit(transferAmount);
+                    break;
+                case "2": // Savings Account
+                    Saving savingAccount = new Saving(userInfo[8], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], recipientID), Double.parseDouble(userInfo[9]), 0.02);
+                    x = 9;
+                    System.out.println("Enter transfer amount:");
+                    transferAmount = Double.parseDouble(user_in.nextLine());
+                    try {
+                        account.withdraw(transferAmount);
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    savingAccount.deposit(transferAmount);
+                    break;
+                case "3": // Credit Account
+                    Credit creditAccount = new Credit(userInfo[10], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], recipientID), Double.parseDouble(userInfo[12]), Double.parseDouble(userInfo[11]), 0d);
+                    x = 12;
+                    System.out.println("Enter transfer amount:");
+                    transferAmount = Double.parseDouble(user_in.nextLine());
+                    try {
+                        account.withdraw(transferAmount);
+                    } catch (Exception e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    creditAccount.deposit(transferAmount);
+                    break;
+                default:
+                    System.out.println("Invalid option.");
+                    break;
+            }
+            System.out.println("Transfer successful.");
         }
-        System.out.println("Enter account type to transfer to (1: Checking, 2: Saving, 3: Credit):");
-        String recipientAccountType = user_in.nextLine();
-        System.out.println("Enter transfer amount:");
-        double transferAmount = Double.parseDouble(user_in.nextLine());
+        
 
-        System.out.println("Transfer successful.");
+        
         
     }
 
