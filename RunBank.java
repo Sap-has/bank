@@ -5,6 +5,7 @@ import java.io.File;
 
 public class RunBank {
     static HashMap<Integer, String[]> bankUsers = new HashMap<>();
+    static int x=0;
     public static void main(String[] args) throws IOException{
         
         Scanner bank_users = new Scanner(new File("info\\Bank Users.csv"));
@@ -61,81 +62,111 @@ public class RunBank {
     }
 
 
-public static void handleUser(int ID, HashMap<Integer, String[]> bankUsers, Scanner user_in) {
-    String[] userInfo = bankUsers.get(ID);
+    public static void handleUser(int ID, HashMap<Integer, String[]> bankUsers, Scanner user_in) {
+        String[] userInfo = bankUsers.get(ID);
 
-    System.out.println("Which account would you like to access?");
-    System.out.println("1. Checking");
-    System.out.println("2. Saving");
-    System.out.println("3. Credit");
+        System.out.println("Which account would you like to access?");
+        System.out.println("1. Checking");
+        System.out.println("2. Saving");
+        System.out.println("3. Credit");
 
-    String userChoice = user_in.nextLine();
+        String userChoice = user_in.nextLine();
 
-    switch (userChoice) {
-        case "1": // Checking Account
-            Checking checkingAccount = new Checking(userInfo[6], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[7]), 500d);
-            performAccountOperations(checkingAccount, user_in);
-            break;
-        case "2": // Savings Account
-            Saving savingAccount = new Saving(userInfo[8], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[9]), 0.02);
-            performAccountOperations(savingAccount, user_in);
-            break;
-        case "3": // Credit Account
-            Credit creditAccount = new Credit(userInfo[10], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[12]), Double.parseDouble(userInfo[11]), 0d);
-            performAccountOperations(creditAccount, user_in);
-            break;
-        default:
-            System.out.println("Invalid option.");
+        switch (userChoice) {
+            case "1": // Checking Account
+                Checking checkingAccount = new Checking(userInfo[6], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[7]), 500d);
+                x = 7;
+                performAccountOperations(checkingAccount, user_in);
+                break;
+            case "2": // Savings Account
+                Saving savingAccount = new Saving(userInfo[8], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[9]), 0.02);
+                x = 9;
+                performAccountOperations(savingAccount, user_in);
+                break;
+            case "3": // Credit Account
+                Credit creditAccount = new Credit(userInfo[10], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[12]), Double.parseDouble(userInfo[11]), 0d);
+                x = 12;
+                performAccountOperations(creditAccount, user_in);
+                break;
+            default:
+                System.out.println("Invalid option.");
+        }
     }
-}
 
-public static void performAccountOperations(Account account, Scanner user_in) {
-    System.out.println("Hello " + account.getOwner().getName());
-    System.out.println("What would you like to do?");
-    System.out.println("1. Inquire Balance");
-    System.out.println("2. Deposit");
-    System.out.println("3. Withdraw");
-    System.out.println("4. Transfer");
+    public static void performAccountOperations(Account account, Scanner user_in) {
+        System.out.println("Hello " + account.getOwner().getName());
+        System.out.println("What would you like to do?");
+        System.out.println("1. Inquire Balance");
+        System.out.println("2. Deposit");
+        System.out.println("3. Withdraw");
+        System.out.println("4. Transfer");
 
-    String action = user_in.nextLine();
+        String action = user_in.nextLine();
 
-    switch (action) {
-        case "1": // Inquire Balance
-            System.out.println(account.inquireBalance());
-            break;
-        case "2": // Deposit
-            System.out.println("Enter deposit amount:");
-            double depositAmount = Double.parseDouble(user_in.nextLine());
-            account.deposit(depositAmount);
-            double newBalance = Double.parseDouble(bankUsers.get(account.getOwner().getCustomerID())[7]) + depositAmount;
+        switch (action) {
+            case "1": // Inquire Balance
+                System.out.println(account.inquireBalance());
+                break;
+            case "2": // Deposit
+                handleDeposit(account, user_in);
+                break;
+            case "3": // Withdraw
+                handleWithdraw(account, user_in);
+                break;
+            case "4": // Transfer
+                handleTransfer(account, user_in);
+                break;
+            default:
+                System.out.println("Invalid option.");
+        }
+    }
+
+    private static void handleTransfer(Account account, Scanner user_in) {
+        // TODO Auto-generated method stub
+        // deposit to other account
+        // withdraw persons account
+        System.out.println("Enter recipient's ID:");
+        int recipientID = Integer.parseInt(user_in.nextLine());
+        if (bankUsers.containsKey(recipientID)) {
+            handleUser(recipientID, bankUsers, user_in);
+        } else {
+            System.out.println("ID does not exist.");
+        }
+        System.out.println("Enter account type to transfer to (1: Checking, 2: Saving, 3: Credit):");
+        String recipientAccountType = user_in.nextLine();
+        System.out.println("Enter transfer amount:");
+        double transferAmount = Double.parseDouble(user_in.nextLine());
+
+        System.out.println("Transfer successful.");
+        
+    }
+
+
+    private static void handleWithdraw(Account account, Scanner user_in) {
+        System.out.println("Enter withdraw amount:");
+        double withdrawAmount = Double.parseDouble(user_in.nextLine());
+        try {
+            account.withdraw(withdrawAmount);
+            double newBalance = Double.parseDouble(bankUsers.get(account.getOwner().getCustomerID())[x]) - withdrawAmount;
             String[] updatedBalance = bankUsers.get(account.getOwner().getCustomerID());
-            updatedBalance[7] = Double.toString(newBalance);
+            updatedBalance[x] = Double.toString(newBalance);
             bankUsers.put((Integer)account.getOwner().getCustomerID(), updatedBalance);
-            System.out.println("Deposit successful. Your new balance is: " + account.inquireBalance());
-            break;
-        case "3": // Withdraw
-            System.out.println("Enter withdraw amount:");
-            double withdrawAmount = Double.parseDouble(user_in.nextLine());
-            try {
-                account.withdraw(withdrawAmount);
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
             System.out.println(account.inquireBalance());
-            break;
-        case "4": // Transfer
-            System.out.println("Enter recipient's ID:");
-            int recipientID = Integer.parseInt(user_in.nextLine());
-            System.out.println("Enter account type to transfer to (1: Checking, 2: Saving, 3: Credit):");
-            String recipientAccountType = user_in.nextLine();
-            System.out.println("Enter transfer amount:");
-            double transferAmount = Double.parseDouble(user_in.nextLine());
-
-            System.out.println("Transfer successful.");
-            break;
-        default:
-            System.out.println("Invalid option.");
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-}
+
+
+    public static void handleDeposit(Account account, Scanner user_in) {
+        System.out.println("Enter deposit amount:");
+        double depositAmount = Double.parseDouble(user_in.nextLine());
+        account.deposit(depositAmount);
+        double newBalance = Double.parseDouble(bankUsers.get(account.getOwner().getCustomerID())[x]) + depositAmount;
+        String[] updatedBalance = bankUsers.get(account.getOwner().getCustomerID());
+        updatedBalance[x] = Double.toString(newBalance);
+        bankUsers.put((Integer)account.getOwner().getCustomerID(), updatedBalance);
+        System.out.println(account.inquireBalance());
+    }
 }
