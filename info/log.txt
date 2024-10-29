@@ -1,3 +1,6 @@
 Daniel A withdrew $500.0 to Checking Account 1078. New checking account balance: $357.55999999999995
 Daniel A deposited $500.0 to Checking Account 1078. New checking account balance: $857.56
 Daniel A deposited $500.0 to Saving Account 2078. New saving account balance: $2864.79
+Alex Avila withdrew $90.0 to Checking Account 1037. New checking account balance: $-4.909999999999997
+Alex Avila withdrew $50.0 to Checking Account 1037. New checking account balance: $-54.91
+Gavin Baechle deposited $50.0 to Checking Account 1053. New checking account balance: $1784.37

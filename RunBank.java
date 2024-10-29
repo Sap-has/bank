@@ -3,6 +3,17 @@ import java.util.HashMap;
 import java.util.Scanner;
 import java.io.File;
 
+// make sure throw error when getting over the balance
+// Go back functionality in console
+// Bank manager can only inquire balance
+    // create class
+// create the new csv file for bankusers
+// update class diagram
+    // scenario
+    // use case
+// ask about overdraft 
+// improve 
+
 public class RunBank {
     static HashMap<Integer, String[]> bankUsers = new HashMap<>();
     static int x=0;
