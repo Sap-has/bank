@@ -135,7 +135,6 @@ public class RunBank {
     }
 
     private static void handleTransfer(Account account, Scanner user_in) {
-        // TODO Auto-generated method stub
         // deposit to other account
         // withdraw persons account
         System.out.println("Enter recipient's ID:");
