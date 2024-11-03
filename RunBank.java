@@ -5,15 +5,9 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 
-// make sure throw error when getting over the balance - asumptions of overdraft
-// Go back functionality in console - done
-// Bank manager can only inquire balance - done
-    // create class - sad
-// create the new csv file for bankusers - done
-// update class diagram
-    // scenario
-    // use case
-// improve 
+// TODO update all diagrams
+// TODO improve the log transactions for all methods
+
 
 public class RunBank {
     private static final HashMap<Integer, String[]> bankUsers = new HashMap<>();
