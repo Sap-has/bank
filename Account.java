@@ -61,11 +61,11 @@ public abstract class Account {
         this.owner = owner;
     }
 
-    public abstract void deposit(double amount);
+    public abstract void deposit(double amount, boolean logTransaction);
 
-    public abstract void withdraw(double amount) throws Exception;
+    public abstract void withdraw(double amount, boolean logTransaction) throws Exception;
 
     public abstract void transfer(Account toAccount, double amount) throws Exception;
 
-    public abstract String inquireBalance();
+    public abstract void inquireBalance();
 }

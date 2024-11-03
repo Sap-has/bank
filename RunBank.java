@@ -1,7 +1,9 @@
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileWriter;
 
 // make sure throw error when getting over the balance
 // Go back functionality in console
@@ -15,215 +17,255 @@ import java.io.File;
 // improve 
 
 public class RunBank {
-    static HashMap<Integer, String[]> bankUsers = new HashMap<>();
-    static int x=0;
-    public static void main(String[] args) throws IOException{
-        
-        Scanner bank_users = new Scanner(new File("info\\Bank Users.csv"));
-        Scanner user_in = new Scanner(System.in);
-        String user_inS;
+    private static final HashMap<Integer, String[]> bankUsers = new HashMap<>();
+    private static final String CSV_FILE_PATH = "info\\Bank Users.csv";
+    private static String CSV_HEADER = "";
+    private static final String EXIT_COMMAND = "exit";
+    private static final String USER_OPTION = "1";
+    private static final String MANAGER_OPTION = "2";
+    private static final String CHECKING_OPTION = "1";
+    private static final String SAVING_OPTION = "2";
+    private static final String CREDIT_OPTION = "3";
+    private static final double OVERDRAFT_LIMIT = 500;
+    private static final double INTERESR_RATE = 0.02;
+    private static final double CREDITPRINCIPLE = 0;
+    private static int balanceIndex;
+    private static final String NEW_CSV_FILE_PATH = "info\\New Bank Users.csv";
 
-        // Load the bank users from CSV file into the HashMap
-        String firstLine = bank_users.nextLine(); // Read the header
-        while (bank_users.hasNextLine()) {
-            String line = bank_users.nextLine();
-            String[] information = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
-            bankUsers.put(Integer.parseInt(information[0]), information);
-        }
-        bank_users.close();
+    public static void main(String[] args) throws IOException {
+        loadBankUsersFromCSV();
 
-        System.out.println("Welcome to the Bank System");
-        System.out.println("Enter 'exit' to exit the program");
+        Scanner userInput = new Scanner(System.in);
+        System.out.println("Welcome to the Bank System. Enter 'exit' to exit the program.");
 
-        do {
+        while (true) {
             System.out.println("Are you a User or Bank Manager?");
             System.out.println("1. User");
             System.out.println("2. Bank Manager");
 
-            user_inS = user_in.nextLine();
+            String userSelection = userInput.nextLine();
+            if (userSelection.equalsIgnoreCase(EXIT_COMMAND)) break;
 
-            if (user_inS.equalsIgnoreCase("exit")) {
-                break;
+            switch (userSelection) {
+                case USER_OPTION:
+                    handleUserAccess(userInput, false);
+                    break;
+                case MANAGER_OPTION:
+                    handleUserAccess(userInput, true);
+                    break;
+                default:
+                    System.out.println("Invalid option. Please choose correctly.");
             }
-            if (user_inS.equals("1")) { // Customer actions
-                System.out.println("Inquire about your account by inputting your ID:");
-                user_inS = user_in.nextLine();
-                int id = Integer.parseInt(user_inS);
-                if (bankUsers.containsKey(id)) {
-                    handleUser(id, bankUsers, user_in);
-                } else {
-                    System.out.println("ID does not exist.");
-                }
-            } else if (user_inS.equals("2")) { // Bank manager actions
-                System.out.println("Please input the customer ID you want to access:");
-                user_inS = user_in.nextLine();
-                int id = Integer.parseInt(user_inS);
-                if (bankUsers.containsKey(id)) {
-                    handleUser(id, bankUsers, user_in);
-                } else {
-                    System.out.println("ID does not exist.");
-                }
-            } else {
-                System.out.println("Please choose correctly.");
-            }
-        } while (!user_inS.equalsIgnoreCase("exit"));
+        }
 
-        user_in.close();
+        userInput.close();
+        updateBankUsersInformation();
         System.out.println("Thank you for using the Bank System.");
     }
 
+    private static void loadBankUsersFromCSV() throws IOException {
+        Scanner bankFileScanner = new Scanner(new File(CSV_FILE_PATH));
+        CSV_HEADER = bankFileScanner.nextLine(); // Skip header
 
-    public static void handleUser(int ID, HashMap<Integer, String[]> bankUsers, Scanner user_in) {
-        String[] userInfo = bankUsers.get(ID);
+        while (bankFileScanner.hasNextLine()) {
+            String[] userInfo = parseCSVLine(bankFileScanner.nextLine());
+            bankUsers.put(Integer.parseInt(userInfo[0]), userInfo);
+        }
 
-        System.out.println("Which account would you like to access?");
+        bankFileScanner.close();
+    }
+
+    private static void updateBankUsersInformation() throws IOException {
+         try (FileWriter writer = new FileWriter(NEW_CSV_FILE_PATH, false)) {
+            writer.write(CSV_HEADER+"\n");
+            for (Map.Entry<Integer, String[]> entry : bankUsers.entrySet()) {
+                writer.write(String.join(",", entry.getValue()) + "\n");
+            }
+            bankUsers.clear(); // Clear hashmap after saving
+        } catch (IOException e) {
+            System.out.println("Error saving the updated users information: " + e.getMessage());
+        }
+    }
+
+    private static String[] parseCSVLine(String line) {
+        return line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
+    }
+
+    private static void handleUserAccess(Scanner userInput, boolean isManager) {
+        System.out.println("Enter the customer ID:");
+        String input = userInput.nextLine();
+        if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
+
+        int customerId = Integer.parseInt(input);
+
+        if (!bankUsers.containsKey(customerId)) {
+            System.out.println("ID does not exist.");
+            return;
+        }
+
+        if (isManager) {
+            System.out.println("Account Information");
+            displayCustomerDetailsForManager(customerId);
+        } else {
+            selectAccountAndPerformOperations(customerId, userInput);
+        }
+    }
+
+    private static void selectAccountAndPerformOperations(int customerId, Scanner userInput) {
+        String[] userInfo = bankUsers.get(customerId);
+
+        System.out.println("Select an account to access:");
         System.out.println("1. Checking");
         System.out.println("2. Saving");
         System.out.println("3. Credit");
 
-        String userChoice = user_in.nextLine();
+        String accountType = userInput.nextLine();
+        if (accountType.equalsIgnoreCase(EXIT_COMMAND)) return;
 
-        switch (userChoice) {
-            case "1": // Checking Account
-                Checking checkingAccount = new Checking(userInfo[6], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[7]), 500d);
-                x = 7;
-                performAccountOperations(checkingAccount, user_in);
-                break;
-            case "2": // Savings Account
-                Saving savingAccount = new Saving(userInfo[8], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[9]), 0.02);
-                x = 9;
-                performAccountOperations(savingAccount, user_in);
-                break;
-            case "3": // Credit Account
-                Credit creditAccount = new Credit(userInfo[10], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], ID), Double.parseDouble(userInfo[12]), Double.parseDouble(userInfo[11]), 0d);
-                x = 12;
-                performAccountOperations(creditAccount, user_in);
-                break;
-            default:
-                System.out.println("Invalid option.");
-                break;
+        Account account = createAccount(accountType, userInfo, customerId);
+
+        if (account != null) {
+            performAccountOperations(account, userInput);
+        } else {
+            System.out.println("Invalid account type.");
         }
     }
 
-    public static void performAccountOperations(Account account, Scanner user_in) {
+    private static Account createAccount(String accountType, String[] userInfo, int customerId) {
+        Customer customer = new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], customerId);
+
+        switch (accountType) {
+            case CHECKING_OPTION:
+                balanceIndex = 7;
+                return new Checking(userInfo[6], customer, Double.parseDouble(userInfo[7]), OVERDRAFT_LIMIT);
+            case SAVING_OPTION:
+                balanceIndex = 9;
+                return new Saving(userInfo[8], customer, Double.parseDouble(userInfo[9]), INTERESR_RATE);
+            case CREDIT_OPTION:
+                balanceIndex = 12;
+                return new Credit(userInfo[10], customer, Double.parseDouble(userInfo[12]), Double.parseDouble(userInfo[11]), CREDITPRINCIPLE);
+            default:
+                return null;
+        }
+    }
+
+    private static void performAccountOperations(Account account, Scanner userInput) {
         System.out.println("Hello " + account.getOwner().getName());
-        System.out.println("What would you like to do?");
+        System.out.println("Choose an action:");
         System.out.println("1. Inquire Balance");
         System.out.println("2. Deposit");
         System.out.println("3. Withdraw");
         System.out.println("4. Transfer");
 
-        String action = user_in.nextLine();
+        String action = userInput.nextLine();
+        if (action.equalsIgnoreCase(EXIT_COMMAND)) return;
 
         switch (action) {
-            case "1": // Inquire Balance
-                System.out.println(account.inquireBalance());
+            case "1":
+                account.inquireBalance();
                 break;
-            case "2": // Deposit
-                handleDeposit(account, user_in);
+            case "2":
+                handleTransaction(account, userInput, true);
                 break;
-            case "3": // Withdraw
-                handleWithdraw(account, user_in);
+            case "3":
+                handleTransaction(account, userInput, false);
                 break;
-            case "4": // Transfer
-                handleTransfer(account, user_in);
+            case "4":
+                handleTransfer(account, userInput);
                 break;
             default:
                 System.out.println("Invalid option.");
-                break;
         }
     }
 
-    private static void handleTransfer(Account account, Scanner user_in) {
-        // deposit to other account
-        // withdraw persons account
-        System.out.println("Enter recipient's ID:");
-        int recipientID = Integer.parseInt(user_in.nextLine());
-        if (!bankUsers.containsKey(recipientID)) {
-            System.out.println("ID does not exist.");
+    private static void handleTransaction(Account account, Scanner userInput, boolean isDeposit) {
+        System.out.println("Enter amount:");
+        String input = userInput.nextLine();
+        if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
+
+        double amount = Double.parseDouble(input);
+
+        if (isDeposit) {
+            account.deposit(amount, true);
         } else {
-            String[] userInfo = bankUsers.get(recipientID);
-            System.out.println("Enter account type to transfer to (1: Checking, 2: Saving, 3: Credit):");
-            String recipientAccountType = user_in.nextLine();
-            double transferAmount = 0;
-            switch (recipientAccountType) {
-                case "1": // Checking Account
-                    Checking checkingAccount = new Checking(userInfo[6], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], recipientID), Double.parseDouble(userInfo[7]), 500d);
-                    x = 7;
-                    System.out.println("Enter transfer amount:");
-                    transferAmount = Double.parseDouble(user_in.nextLine());
-                    try {
-                        account.withdraw(transferAmount);
-                    } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    checkingAccount.deposit(transferAmount);
-                    break;
-                case "2": // Savings Account
-                    Saving savingAccount = new Saving(userInfo[8], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], recipientID), Double.parseDouble(userInfo[9]), 0.02);
-                    x = 9;
-                    System.out.println("Enter transfer amount:");
-                    transferAmount = Double.parseDouble(user_in.nextLine());
-                    try {
-                        account.withdraw(transferAmount);
-                    } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    savingAccount.deposit(transferAmount);
-                    break;
-                case "3": // Credit Account
-                    Credit creditAccount = new Credit(userInfo[10], new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], recipientID), Double.parseDouble(userInfo[12]), Double.parseDouble(userInfo[11]), 0d);
-                    x = 12;
-                    System.out.println("Enter transfer amount:");
-                    transferAmount = Double.parseDouble(user_in.nextLine());
-                    try {
-                        account.withdraw(transferAmount);
-                    } catch (Exception e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                    creditAccount.deposit(transferAmount);
-                    break;
-                default:
-                    System.out.println("Invalid option.");
-                    break;
+            try {
+                account.withdraw(amount, true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            System.out.println("Transfer successful.");
         }
-        
 
-        
-        
+        updateBalanceInBankUsers(account, amount, isDeposit);
+        account.inquireBalance();
     }
 
-
-    private static void handleWithdraw(Account account, Scanner user_in) {
-        System.out.println("Enter withdraw amount:");
-        double withdrawAmount = Double.parseDouble(user_in.nextLine());
+    private static void handleTransfer(Account fromAccount, Scanner userInput) {
+        System.out.println("Enter recipient's ID:");
+        String input = userInput.nextLine();
+        if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
+    
+        int recipientID = Integer.parseInt(input);
+    
+        if (!bankUsers.containsKey(recipientID)) {
+            System.out.println("Recipient ID does not exist.");
+            return;
+        }
+    
+        System.out.println("Enter recipient account type (1: Checking, 2: Saving, 3: Credit):");
+        String recipientAccountType = userInput.nextLine();
+        if (recipientAccountType.equalsIgnoreCase(EXIT_COMMAND)) return;
+    
+        Account recipientAccount = createAccount(recipientAccountType, bankUsers.get(recipientID), recipientID);
+    
+        if (recipientAccount == null) {
+            System.out.println("Invalid recipient account type.");
+            return;
+        }
+    
+        System.out.println("Enter transfer amount:");
+        input = userInput.nextLine();
+        if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
+    
+        double transferAmount = Double.parseDouble(input);
+    
         try {
-            account.withdraw(withdrawAmount);
-            double newBalance = Double.parseDouble(bankUsers.get(account.getOwner().getCustomerID())[x]) - withdrawAmount;
-            String[] updatedBalance = bankUsers.get(account.getOwner().getCustomerID());
-            updatedBalance[x] = Double.toString(newBalance);
-            bankUsers.put((Integer)account.getOwner().getCustomerID(), updatedBalance);
-            System.out.println(account.inquireBalance());
+            fromAccount.transfer(recipientAccount, transferAmount);
+            updateBalanceInBankUsers(fromAccount, -transferAmount, false);
+            updateBalanceInBankUsers(recipientAccount, transferAmount, true);
+            System.out.println("Transfer successful.");
         } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            System.out.println("Transfer failed: " + e.getMessage());
         }
     }
+    
 
+    private static void updateBalanceInBankUsers(Account account, double amount, boolean isDeposit) {
+        double currentBalance = Double.parseDouble(bankUsers.get(account.getOwner().getCustomerID())[balanceIndex]);
+        double updatedBalance = isDeposit ? currentBalance + amount : currentBalance - amount;
 
-    public static void handleDeposit(Account account, Scanner user_in) {
-        System.out.println("Enter deposit amount:");
-        double depositAmount = Double.parseDouble(user_in.nextLine());
-        account.deposit(depositAmount);
-        double newBalance = Double.parseDouble(bankUsers.get(account.getOwner().getCustomerID())[x]) + depositAmount;
-        String[] updatedBalance = bankUsers.get(account.getOwner().getCustomerID());
-        updatedBalance[x] = Double.toString(newBalance);
-        bankUsers.put((Integer)account.getOwner().getCustomerID(), updatedBalance);
-        System.out.println(account.inquireBalance());
+        String[] updatedUserInfo = bankUsers.get(account.getOwner().getCustomerID());
+        updatedUserInfo[balanceIndex] = Double.toString(updatedBalance);
+        bankUsers.put(account.getOwner().getCustomerID(), updatedUserInfo);
+    }
+
+    private static void displayCustomerDetailsForManager(int customerId) {
+        String[] userInfo = bankUsers.get(customerId);
+        
+        // Display customer name
+        System.out.println("Customer Details:");
+        System.out.println("Name: " + userInfo[1] + " " + userInfo[2]);
+        
+        // Display Checking account details
+        System.out.println("Checking Account Number: " + userInfo[6]);
+        System.out.println("Checking Account Balance: $" + userInfo[7]);
+        
+        // Display Savings account details
+        System.out.println("Savings Account Number: " + userInfo[8]);
+        System.out.println("Savings Account Balance: $" + userInfo[9]);
+        
+        // Display Credit account details
+        System.out.println("Credit Account Number: " + userInfo[10]);
+        System.out.println("Credit Account Max: $" + userInfo[11]);
+        System.out.println("Credit Account Balance: $" + userInfo[12]);
     }
 }

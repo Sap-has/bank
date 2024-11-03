@@ -37,7 +37,7 @@ public class Saving extends Account {
 
     public void applyInterest() {
         double interest = getBalance() * interestRate;
-        deposit(interest);
+        deposit(interest, true);
         TransactionLog log = new TransactionLog();
         log.logTransaction("Applied interest of " + interest + " to Saving Account " + getAccountNumber());
         log.saveLog();
@@ -47,14 +47,16 @@ public class Saving extends Account {
      * @param amount money to deposit 
      * @Override
      */
-    public void deposit(double amount) {
-        if (amount > 0) {
-            setBalance(getBalance() + amount);
+    public void deposit(double amount, boolean logTransaction) {
+        setBalance(getBalance() + amount);
+    
+        // Log the deposit only if logTransaction is true
+        if (logTransaction) {
             TransactionLog log = new TransactionLog();
-            log.logTransaction(getOwner().getName() + " deposited $" + amount + " to Saving Account " + getAccountNumber() + ". New Saving account balance: $" + getBalance());
+            String logMessage = String.format("%s deposited $%.2f to Account %s",
+                    getOwner().getName(), amount, getAccountNumber());
+            log.logTransaction(logMessage);
             log.saveLog();
-        } else {
-            System.out.println("Invalid deposit amount.");
         }
     }
 
@@ -63,14 +65,19 @@ public class Saving extends Account {
      * @throws Exception if withdraw amount exceeds savings balance 
      * @Override
      */
-    public void withdraw(double amount) throws Exception {
-        if (amount > 0 && getBalance() >= amount) {
-            setBalance(getBalance() - amount);
+    public void withdraw(double amount, boolean logTransaction) throws Exception {
+        if (!(amount > 0 && getBalance() >= amount)) {
+            throw new Exception("Insufficient balance for withdrawal.");
+        }
+        setBalance(getBalance() - amount);
+    
+        // Log the withdrawal only if logTransaction is true
+        if (logTransaction) {
             TransactionLog log = new TransactionLog();
-            log.logTransaction(getOwner().getName() + " deposited $" + amount + " to Saving Account " + getAccountNumber() + ". New saving account balance: $" + getBalance());
+            String logMessage = String.format("%s withdrew $%.2f from Account %s",
+                    getOwner().getName(), amount, getAccountNumber());
+            log.logTransaction(logMessage);
             log.saveLog();
-        } else {
-            throw new Exception("Insufficient funds for withdrawal.");
         }
     }
 
@@ -81,17 +88,29 @@ public class Saving extends Account {
      * @Override
      */
     public void transfer(Account toAccount, double amount) throws Exception {
-        withdraw(amount);
-        toAccount.deposit(amount);
-        TransactionLog log = new TransactionLog();
-        log.logTransaction(getOwner().getName() + " transferred " + amount + " from Checking Account " + getAccountNumber() + " to " + toAccount.getOwner().getName() + "'s to " + toAccount.getAccountNumber());
-        log.saveLog();
+        try {
+            // Perform withdraw and deposit without logging
+            withdraw(amount, false);  // Pass 'false' to indicate no logging
+            toAccount.deposit(amount, false);
+    
+            // Log the transfer
+            TransactionLog log = new TransactionLog();
+            String logMessage = String.format("%s transferred $%.2f from Account %s to %s's Account %s",
+                    getOwner().getName(), amount, getAccountNumber(), toAccount.getOwner().getName(), toAccount.getAccountNumber());
+            log.logTransaction(logMessage);
+            log.saveLog();
+        } catch (Exception e) {
+            throw new Exception("Transfer failed: " + e.getMessage());
+        }
     }
 
     /**
      * @Override
      */
-    public String inquireBalance() {
-        return "Balance in Saving Account " + getAccountNumber() + ": " + getBalance();
+    public void inquireBalance() {
+        TransactionLog log = new TransactionLog();
+        String logMessage = String.format("%s inquired balance of %s: $%.2f", getOwner().getName(), getAccountNumber(), getBalance());
+        log.logTransaction(logMessage);
+        log.saveLog();
     }
 }
