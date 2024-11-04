@@ -8,6 +8,8 @@ import java.io.FileWriter;
 // TODO update all diagrams
 // TODO improve the log transactions for all methods
 
+// get length of hashmap - will be id of new customer
+
 
 public class RunBank {
     private static final HashMap<Integer, String[]> bankUsers = new HashMap<>();
@@ -115,7 +117,7 @@ public class RunBank {
         String accountType = userInput.nextLine();
         if (accountType.equalsIgnoreCase(EXIT_COMMAND)) return;
 
-        Account account = createAccount(accountType, userInfo, customerId);
+        Account account = openAccount(accountType, userInfo, customerId);
 
         if (account != null) {
             performAccountOperations(account, userInput);
@@ -124,7 +126,7 @@ public class RunBank {
         }
     }
 
-    private static Account createAccount(String accountType, String[] userInfo, int customerId) {
+    private static Account openAccount(String accountType, String[] userInfo, int customerId) {
         Customer customer = new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], customerId);
 
         switch (accountType) {
@@ -208,7 +210,7 @@ public class RunBank {
         String recipientAccountType = userInput.nextLine();
         if (recipientAccountType.equalsIgnoreCase(EXIT_COMMAND)) return;
     
-        Account recipientAccount = createAccount(recipientAccountType, bankUsers.get(recipientID), recipientID);
+        Account recipientAccount = openAccount(recipientAccountType, bankUsers.get(recipientID), recipientID);
     
         if (recipientAccount == null) {
             System.out.println("Invalid recipient account type.");
