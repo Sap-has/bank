@@ -34,8 +34,8 @@ public class RunBank {
         System.out.println("Welcome to the Bank System. Enter 'exit' to exit the program.");
 
         while (true) {
-            System.out.println("Are you a User or Bank Manager?");
-            System.out.println("1. User");
+            System.out.println("Are you a Customer or Bank Manager?");
+            System.out.println("1. Customer");
             System.out.println("2. Bank Manager");
 
             String userSelection = userInput.nextLine();
