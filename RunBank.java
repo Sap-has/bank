@@ -12,7 +12,7 @@ import java.io.FileWriter;
 
 
 public class RunBank {
-    private static final HashMap<Integer, String[]> bankUsers = new HashMap<>();
+    static final HashMap<Integer, String[]> bankUsers = new HashMap<>();
     private static final String CSV_FILE_PATH = "info\\Bank Users.csv";
     private static String CSV_HEADER = "";
     private static final String EXIT_COMMAND = "exit";
@@ -58,7 +58,7 @@ public class RunBank {
         System.out.println("Thank you for using the Bank System.");
     }
 
-    private static void loadBankUsersFromCSV() throws IOException {
+    static void loadBankUsersFromCSV() throws IOException {
         Scanner bankFileScanner = new Scanner(new File(CSV_FILE_PATH));
         CSV_HEADER = bankFileScanner.nextLine(); // Skip header
 
@@ -126,7 +126,7 @@ public class RunBank {
         }
     }
 
-    private static Account openAccount(String accountType, String[] userInfo, int customerId) {
+    static Account openAccount(String accountType, String[] userInfo, int customerId) {
         Customer customer = new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], customerId);
 
         switch (accountType) {
