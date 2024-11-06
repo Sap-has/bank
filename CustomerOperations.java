@@ -1,16 +1,8 @@
-public class BankManager implements BankOperations {
-    private final String TRANSACTION_CSV_FILE_PATH = "info/Transactions.csv";
+public class CustomerOperations implements BankOperations{
 
-    public void generateBankStatement(Account account) {
-
-    }
-
-    public void completeTransactions() {
-
-    }
-
-    public void displayCustomerDetailsForManager(int customerID) {
-
+    public Account openAccount(String accountType, String[] userInfo, int customerID) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'openAccount'");
     }
 
     @Override
@@ -22,14 +14,13 @@ public class BankManager implements BankOperations {
     @Override
     public void transferFunds(Account fromAccount, Account toAccount, double amount) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'performTransaction'");
+        throw new UnsupportedOperationException("Unimplemented method 'transferFunds'");
     }
 
     @Override
     public void updateBalanceInBankUsers(Account account, double amount, boolean isDeposit) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'performTransaction'");
+        throw new UnsupportedOperationException("Unimplemented method 'updateBalanceInBankUsers'");
     }
-
     
 }

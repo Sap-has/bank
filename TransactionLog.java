@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class TransactionLog {
     private ArrayList<String> logEntries = new ArrayList<>();
-    private final String LOG_FILE = "info/log.txt";
+    final String LOG_FILE = "info/log.txt";
 
     /**
      * 

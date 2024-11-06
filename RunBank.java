@@ -5,7 +5,6 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
 
-// TODO update all diagrams
 // TODO improve the log transactions for all methods
 
 // get length of hashmap - will be id of new customer

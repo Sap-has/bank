@@ -6,6 +6,7 @@
 public class Credit extends Account {
     private double creditLimit;
     private double principle;
+    private int creditScore;
 
     /**
      * 
@@ -15,10 +16,11 @@ public class Credit extends Account {
      * @param creditLimit the credit account's credit limit
      * @param principle the amount the person owes 
      */
-    public Credit(String accountNumber, Customer owner, double balance, double creditLimit, double principle) {
+    public Credit(String accountNumber, Customer owner, double balance, double creditLimit, double principle, int creditScore) {
         super(accountNumber, owner, balance);
         this.creditLimit = creditLimit;
         this.principle = principle;
+        this.creditScore = creditScore;
     }
 
     /**
@@ -51,6 +53,18 @@ public class Credit extends Account {
      */
     public void setPrinciple(double principle) {
         this.principle = principle;
+    }
+
+    public void setCreditScore(int creditScore) {
+        this.creditScore = creditScore;
+    }
+
+    public int getCreditScore() {
+        return creditScore;
+    }
+
+    public void calculateCreditLimit() {
+        System.out.print("TODO");
     }
 
     /**
