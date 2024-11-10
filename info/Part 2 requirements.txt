@@ -24,24 +24,50 @@ Use at least 1 design pattern when refactoring code
     Document it on the lab report
     Select 1 that you want (from class or outside of class)
 
-Add new bank user functionality (create user from console)
-    Users need to complete all fields provided from the CSV
-    Users should be given a Saving, Checking and Credit Account
-        User ID has to be generated (increment)
-    Account numbers should be generated
-    User should be given a creditLimit (see table from part 2 pdf)
+Create new CSV do not overwrite og CSV
 
-Handle users with same first name or last name (but not both)
-    handle users looking up by their name 
 
-Create a UserTransaction file (txt) with the following info
-    Account Information
-    Starting Balance
-    Ending Balance
-    All Transactions
-    Date of Statement (date of running code)
+General Requirements?
+    Handle users with same first name or last name (but not both)
+        handle users looking up by their name 
+    
+    Handle all exceptions
+    Users cannot transfer to themselves
+    outcome (success/fail) of transactions should be told to user
 
-Extend BankManager functionality
+    Create JUnit tests
+        Create Junit tests for 5 methods
+        Create a Junit suite
+
+    Generate Javadoc
+
+    Lab Report
+
+    Code review
+
+Customer requirements
+    Create a UserTransaction file (txt) with the following info
+        Account Information
+        Starting Balance
+        Ending Balance
+        All Transactions
+        Date of Statement (date of running code)
+
+    Add new bank user functionality (create user from console)
+        Users need to complete all fields provided from the CSV
+        Users should be given a Saving, Checking and Credit Account
+            User ID has to be generated (increment)
+        Account numbers should be generated
+        User should be given a creditLimit (see table from part 2 pdf) (random number for creditScore)
+
+BankManager Requirements
+    Generate BankStatement file for a specific user
+        Choose user by name/ID
+        We have free reign of formatting
+        All information should be shown (Name, address, phone #, etc)
+        All transactions should be written (from current session)
+        Only bank manager can generate BankStatement
+    
     Transaction reader
         it will be given a Transaction.csv file
         Needs to do the operations given in that file
@@ -49,28 +75,5 @@ Extend BankManager functionality
         Consider transactions failing 
             Write a message saying transaction failed and reason
             Continue doing transactions
-
-Generate BankStatement file for a specific user
-    Choose user by name/ID
-    We have free reign of formatting
-    All information should be shown (Name, address, phone #, etc)
-    All transactions should be written (from current session)
-    Only bank manager can generate BankStatement
-
-Create new CSV do not overwrite og CSV
-
-Handle all exceptions
-    Users cannot transfer to themselves
-    outcome (success/fail) of transactions should be told to user
-
-Create JUnit tests
-    Create Junit tests for 5 methods
-    Create a Junit suite
-
-Generate Javadoc
-
-Lab Report
-
-Code review
 
 '''
