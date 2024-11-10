@@ -102,7 +102,6 @@ public class CustomerOperation implements BankOperations {
         }
 
         updateBalanceInBankUsers(account, amount, isDeposit);
-        account.inquireBalance();
     }
 
     @Override
