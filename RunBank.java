@@ -12,8 +12,17 @@ import java.io.FileWriter;
 
 public class RunBank {
     static final HashMap<Integer, String[]> bankUsers = new HashMap<>();
-    private static final String CSV_FILE_PATH = "info\\Bank Users.csv";
-    private static String CSV_HEADER = "";
+    private static final String CSV_FILE_PATH = "info\\Bank_Users_Reversed_Headers.csv";
+    private static String CSV_HEADER = "Identification Number,First Name,Last Name,Date of Birth,Address,Phone Number,"+
+                "Checking Account Number,Checking Starting Balance,Savings Account Number,Savings Starting Balance,Credit Account Number,"+
+                "Credit Max,Credit Starting Balance";
+    private static final String[] EXPECTED_HEADERS = {
+        "Identification Number", "First Name", "Last Name", "Date of Birth",
+        "Address", "Phone Number", "Checking Account Number", "Checking Starting Balance",
+        "Savings Account Number", "Savings Starting Balance", "Credit Account Number",
+        "Credit Max", "Credit Starting Balance"
+    };
+    private static Map<String, Integer> headerIndexMap = new HashMap<>();
     private static final String EXIT_COMMAND = "exit";
     private static final String NEW_CSV_FILE_PATH = "info\\New Bank Users.csv";
 
@@ -49,15 +58,42 @@ public class RunBank {
     }
 
     static void loadBankUsersFromCSV() throws IOException {
-        Scanner bankFileScanner = new Scanner(new File(CSV_FILE_PATH));
-        CSV_HEADER = bankFileScanner.nextLine(); // Skip header
+        try (Scanner bankFileScanner = new Scanner(new File(CSV_FILE_PATH))) {
+            if (!bankFileScanner.hasNextLine()) {
+                throw new IOException("CSV file is empty.");
+            }
 
-        while (bankFileScanner.hasNextLine()) {
-            String[] userInfo = parseCSVLine(bankFileScanner.nextLine());
-            bankUsers.put(Integer.parseInt(userInfo[0]), userInfo);
+            // Read header and create index map
+            String[] headers = bankFileScanner.nextLine().split(",");
+            for (int i = 0; i < headers.length; i++) {
+                headerIndexMap.put(headers[i].trim(), i);
+            }
+
+            // Check if all expected headers are present
+            for (String expectedHeader : EXPECTED_HEADERS) {
+                if (!headerIndexMap.containsKey(expectedHeader)) {
+                    throw new IOException("Missing expected header: " + expectedHeader);
+                }
+            }
+
+            // Read each user row, using the header index map to parse fields
+            while (bankFileScanner.hasNextLine()) {
+                String[] lineData = parseCSVLine(bankFileScanner.nextLine());
+
+                // Retrieve the Identification Number using the index map
+                int idIndex = headerIndexMap.get("Identification Number");
+                int id = Integer.parseInt(lineData[idIndex]);
+
+                // Create a new array to store data in the original header order
+                String[] orderedData = new String[EXPECTED_HEADERS.length];
+                for (int i = 0; i < EXPECTED_HEADERS.length; i++) {
+                    orderedData[i] = lineData[headerIndexMap.get(EXPECTED_HEADERS[i])];
+                }
+
+                // Store the ordered data in the map with id as the key
+                bankUsers.put(id, orderedData);
+            }
         }
-
-        bankFileScanner.close();
     }
 
     private static String[] parseCSVLine(String line) {
