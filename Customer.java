@@ -50,18 +50,4 @@ public class Customer extends Person {
     public void removeAccount(Account account) {
         accountList.remove(account);
     }
-
-    /**
-     * 
-     * @param accountNumber account to inquire about
-     * @return account inquired about or null if account is not found
-     */
-    public Account inquireAccount(String accountNumber) {
-        for (Account account : accountList) {
-            if (account.getAccountNumber().equals(accountNumber)) {
-                return account;
-            }
-        }
-        return null; // if not found
-    }
 }

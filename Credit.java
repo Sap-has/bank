@@ -71,7 +71,7 @@ public class Credit extends Account {
      * @param amount credit amount to deposit toward principle
      * @Override
      */
-    public void deposit(double amount, boolean logTransaction) {
+    public void depositTransaction(double amount, boolean logTransaction) {
         setBalance(getBalance() + amount);
     
         // Log the deposit only if logTransaction is true
@@ -89,7 +89,7 @@ public class Credit extends Account {
      * @throws Exception if more money than credit limit is withdrawn
      * @Override
      */
-    public void withdraw(double amount, boolean logTransaction) throws Exception {
+    public void withdrawTransaction(double amount, boolean logTransaction) throws Exception {
         if (!(amount > 0 && Math.abs(getBalance()) >= amount && (creditLimit - Math.abs(getBalance())) >= amount)) {
             throw new Exception("Insufficient balance for withdrawal.");
         }
@@ -111,11 +111,11 @@ public class Credit extends Account {
      * @throws Exception
      * @Override
      */
-    public void transfer(Account toAccount, double amount) throws Exception {
+    public void transferTransaction(Account toAccount, double amount) throws Exception {
         try {
             // Perform withdraw and deposit without logging
-            withdraw(amount, false);  // Pass 'false' to indicate no logging
-            toAccount.deposit(amount, false);
+            withdrawTransaction(amount, false);  // Pass 'false' to indicate no logging
+            toAccount.depositTransaction(amount, false);
     
             // Log the transfer
             TransactionLog log = new TransactionLog();
@@ -136,5 +136,17 @@ public class Credit extends Account {
         String logMessage = String.format("%s inquired balance of %s: $%.2f", getOwner().getName(), getAccountNumber(), getBalance());
         log.logTransaction(logMessage);
         log.saveLog();
+    }
+
+    @Override
+    protected boolean validateDeposit(double amount) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'validateDeposit'");
+    }
+
+    @Override
+    protected boolean validateWithdrawal(double amount) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'validateWithdrawal'");
     }
 }

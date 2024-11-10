@@ -1,0 +1,4 @@
+Mickey Mouse deposited $5000.00 to Account 1000
+Mickey Mouse inquired balance of 1000: $5403.12
+Mickey Mouse deposited $500.00 to Account 1000
+Mickey Mouse inquired balance of 1000: $903.12

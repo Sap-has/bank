@@ -37,7 +37,7 @@ public class Saving extends Account {
 
     public void applyInterest() {
         double interest = getBalance() * interestRate;
-        deposit(interest, true);
+        depositTransaction(interest, true);
         TransactionLog log = new TransactionLog();
         log.logTransaction("Applied interest of " + interest + " to Saving Account " + getAccountNumber());
         log.saveLog();
@@ -47,7 +47,7 @@ public class Saving extends Account {
      * @param amount money to deposit 
      * @Override
      */
-    public void deposit(double amount, boolean logTransaction) {
+    public void depositTransaction(double amount, boolean logTransaction) {
         setBalance(getBalance() + amount);
     
         // Log the deposit only if logTransaction is true
@@ -65,7 +65,7 @@ public class Saving extends Account {
      * @throws Exception if withdraw amount exceeds savings balance 
      * @Override
      */
-    public void withdraw(double amount, boolean logTransaction) throws Exception {
+    public void withdrawTransaction(double amount, boolean logTransaction) throws Exception {
         if (!(amount > 0 && getBalance() >= amount)) {
             throw new Exception("Insufficient balance for withdrawal.");
         }
@@ -87,11 +87,11 @@ public class Saving extends Account {
      * @throws Exception
      * @Override
      */
-    public void transfer(Account toAccount, double amount) throws Exception {
+    public void transferTransaction(Account toAccount, double amount) throws Exception {
         try {
             // Perform withdraw and deposit without logging
-            withdraw(amount, false);  // Pass 'false' to indicate no logging
-            toAccount.deposit(amount, false);
+            withdrawTransaction(amount, false);  // Pass 'false' to indicate no logging
+            toAccount.depositTransaction(amount, false);
     
             // Log the transfer
             TransactionLog log = new TransactionLog();
@@ -112,5 +112,17 @@ public class Saving extends Account {
         String logMessage = String.format("%s inquired balance of %s: $%.2f", getOwner().getName(), getAccountNumber(), getBalance());
         log.logTransaction(logMessage);
         log.saveLog();
+    }
+
+    @Override
+    protected boolean validateDeposit(double amount) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'validateDeposit'");
+    }
+
+    @Override
+    protected boolean validateWithdrawal(double amount) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'validateWithdrawal'");
     }
 }
