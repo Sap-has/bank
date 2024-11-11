@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
+import java.util.Random; // for credit score
 
 // improve the log transactions for all methods
 // get length of hashmap - will be id of new customer
@@ -12,6 +13,7 @@ import java.io.FileWriter;
 
 public class RunBank {
     static final HashMap<Integer, String[]> bankUsers = new HashMap<>();
+    static final HashMap<Integer, Integer> creditScores = new HashMap<>(); // map to keep track of creditScore (allows for score to persist for duration of session)
     private static final String CSV_FILE_PATH = "info\\Bank_Users_Reversed_Headers.csv";
     private static String CSV_HEADER = "Identification Number,First Name,Last Name,Date of Birth,Address,Phone Number,"+
                 "Checking Account Number,Checking Starting Balance,Savings Account Number,Savings Starting Balance,Credit Account Number,"+
@@ -121,7 +123,9 @@ public class RunBank {
             case "2": // Saving
                 return new Saving(userInfo[8], customer, Double.parseDouble(userInfo[9]), 0.02);
             case "3": // Credit
-                return new Credit(userInfo[10], customer, Double.parseDouble(userInfo[12]), Double.parseDouble(userInfo[11]), 0, 0);
+                // Generate or retrieve a persistent credit score for the session
+                int creditScore = creditScores.computeIfAbsent(customerId, k -> new Random().nextInt(851) + 300); // scores from 300-850 (inclusive)
+                return new Credit(userInfo[10], customer, Double.parseDouble(userInfo[12]), Double.parseDouble(userInfo[11]), 0, creditScore);
             default:
                 return null;
         }

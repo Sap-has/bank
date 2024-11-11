@@ -46,6 +46,10 @@ General Requirements?
     Code review
 
 Customer requirements
+    Credit Scores
+        each customer get a random credit score
+            Already implemented (just double check it please)
+            
     Create a UserTransaction file (txt) with the following info
         Account Information
         Starting Balance

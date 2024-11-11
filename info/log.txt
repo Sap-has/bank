@@ -2,3 +2,4 @@ Mickey Mouse deposited $5000.00 to Account 1000
 Mickey Mouse inquired balance of 1000: $403.12
 Mickey Mouse deposited $5000.00 to Account 1000
 Mickey Mouse deposited $5000.00 to Account 1000
+Mickey Mouse inquired balance of 3000: $-1653.84
