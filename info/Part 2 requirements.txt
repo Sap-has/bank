@@ -46,6 +46,8 @@ General Requirements?
     Code review
 
 Customer requirements
+    Continue Functionality 
+    
     Credit Scores
         each customer get a random credit score
             Already implemented (just double check it please)
