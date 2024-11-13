@@ -32,7 +32,7 @@ public class Person {
     }
 
     public String getName() {
-        return getFirstName() + getLastName();
+        return getFirstName() + " " + getLastName();
     }
 
     

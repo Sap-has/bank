@@ -13,3 +13,4 @@ Mickey Mouse withdrew $5.00 from Account 3000
 Mickey Mouse inquired balance of 1000: $403.12
 Mickey Mouse inquired balance of 1000: $403.12
 Mickey Mouse inquired balance of 1000: $403.12
+DonaldDuck deposited $500.00 to Account 1001. New Balance: $2428.58
