@@ -4,30 +4,75 @@ import java.util.Map;
 import java.util.Scanner;
 import java.io.File;
 import java.io.FileWriter;
-import java.util.Random; // for credit score
+import java.util.Random; 
 
-// improve the log transactions for all methods
-// get length of hashmap - will be id of new customer
-// generate a random number for credit score
-
-
+/**
+ * The RunBank class is the entry point of the bank system. It provides the functionality 
+ * to load bank users from a CSV file, handle user input, and allow users to access the 
+ * bank system as either a customer or a bank manager.
+ * <p>
+ * The bank users' data is persisted in a CSV file, and the system supports operations like 
+ * creating new accounts and updating information. Users can exit the system at any time 
+ * by typing 'exit'.
+ * </p>
+ */
 public class RunBank {
+
+    /**
+     * A HashMap that stores bank users' information, with the identification number as the key.
+     */
     static final HashMap<Integer, String[]> bankUsers = new HashMap<>();
-    static final HashMap<Integer, Integer> creditScores = new HashMap<>(); // map to keep track of creditScore (allows for score to persist for duration of session)
+
+    /**
+     * A HashMap that stores the credit scores for each customer, allowing the score to persist 
+     * throughout the session.
+     */
+    static final HashMap<Integer, Integer> creditScores = new HashMap<>();
+
+    /**
+     * The path to the CSV file that contains the bank users' information.
+     */
     private static final String CSV_FILE_PATH = "info\\Bank Users.csv";
+
+    /**
+     * The header for the CSV file containing bank user data.
+     */
     private static String CSV_HEADER = "Identification Number,First Name,Last Name,Date of Birth,Address,Phone Number,"+
                 "Checking Account Number,Checking Starting Balance,Savings Account Number,Savings Starting Balance,Credit Account Number,"+
                 "Credit Max,Credit Starting Balance";
+
+    /**
+     * An array of expected headers in the CSV file.
+     */
     private static final String[] EXPECTED_HEADERS = {
         "Identification Number", "First Name", "Last Name", "Date of Birth",
         "Address", "Phone Number", "Checking Account Number", "Checking Starting Balance",
         "Savings Account Number", "Savings Starting Balance", "Credit Account Number",
         "Credit Max", "Credit Starting Balance"
     };
+
+    /**
+     * A map that holds the indices of the CSV headers for easier access while parsing the file.
+     */
     static Map<String, Integer> headerIndexMap = new HashMap<>();
+
+    /**
+     * The command used to exit the program.
+     */
     private static final String EXIT_COMMAND = "exit";
+
+    /**
+     * The path to the new CSV file where updated bank users' information will be saved.
+     */
     private static final String NEW_CSV_FILE_PATH = "info\\New Bank Users.csv";
 
+    /**
+     * Main method that runs the bank system. It loads the bank users, prompts the user 
+     * for access, and handles interactions with customers and bank managers.
+     * 
+     * @param args command-line arguments (not used)
+     * @throws IOException if an error occurs while reading or writing files
+     */
     public static void main(String[] args) throws IOException {
         loadBankUsersFromCSV();
         Scanner userInput = new Scanner(System.in);
@@ -59,6 +104,12 @@ public class RunBank {
         System.out.println("Thank you for using the Bank System.");
     }
 
+    /**
+     * Loads bank users from the CSV file into the {@link #bankUsers} map. The method 
+     * checks for missing headers and parses the CSV file accordingly.
+     * 
+     * @throws IOException if the file is empty, if expected headers are missing, or if there is an error reading the file
+     */
     static void loadBankUsersFromCSV() throws IOException {
         try (Scanner bankFileScanner = new Scanner(new File(CSV_FILE_PATH))) {
             if (!bankFileScanner.hasNextLine()) {
@@ -98,13 +149,24 @@ public class RunBank {
         }
     }
 
+    /**
+     * Parses a single line of CSV data. Handles cases of commas within quotes.
+     * 
+     * @param line the CSV line to parse
+     * @return an array of strings representing the parsed values
+     */
     public static String[] parseCSVLine(String line) {
         return line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
     }
 
+    /**
+     * Saves the current state of the bank users to a new CSV file.
+     * 
+     * @throws IOException if there is an error writing to the file
+     */
     private static void updateBankUsersInformation() throws IOException {
          try (FileWriter writer = new FileWriter(NEW_CSV_FILE_PATH, false)) {
-            writer.write(CSV_HEADER+"\n");
+            writer.write(CSV_HEADER + "\n");
             for (Map.Entry<Integer, String[]> entry : bankUsers.entrySet()) {
                 writer.write(String.join(",", entry.getValue()) + "\n");
             }
@@ -114,6 +176,14 @@ public class RunBank {
         }
     }
 
+    /**
+     * Opens a new bank account based on the provided account type.
+     * 
+     * @param accountType the type of account to open (1 for Checking, 2 for Saving, 3 for Credit)
+     * @param userInfo the user's information as an array of strings
+     * @param customerId the unique identification number for the customer
+     * @return an {@link Account} object for the newly created account, or null if the account type is invalid
+     */
     public static Account openAccount(String accountType, String[] userInfo, int customerId) {
         Customer customer = new Customer(userInfo[1], userInfo[2], userInfo[3], userInfo[4], userInfo[5], customerId);
     

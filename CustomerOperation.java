@@ -4,6 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+/**
+ * The {@code CustomerOperation} class implements the {@code BankOperations} interface and provides 
+ * functionality for customers to access and manage their bank accounts. It handles tasks such as 
+ * account selection, balance inquiry, deposits, withdrawals, and transfers.
+ * This class allows for setting up new customers and saving their information to the CSV file.
+ */
 public class CustomerOperation implements BankOperations {
     private static final HashMap<Integer, String[]> bankUsers = RunBank.bankUsers; // Reference from RunBank for simplicity
     private static final Map<String, Integer> headerIndexMap = RunBank.headerIndexMap;
@@ -12,6 +18,10 @@ public class CustomerOperation implements BankOperations {
     private static int balanceIndex;
     Scanner userInput = new Scanner(System.in);
 
+    /**
+     * Prompts the user to enter their customer ID and provides access to their accounts if the ID exists.
+     * If the user is a new customer, they are prompted to provide their information to set up a new account.
+     */
     public void handleUserAccess() {
         isNewUser();
         System.out.println("Enter the customer ID:");
@@ -27,6 +37,10 @@ public class CustomerOperation implements BankOperations {
         selectAccountAndPerformOperations(customerId);
     }
 
+    /**
+     * Prompts the user to indicate whether they are an existing customer or want to set up a new account.
+     * If setting up a new account, it collects customer details and adds them to the system.
+     */
     public void isNewUser() {
         System.out.println("Are you a (1) customer with us or (2) do you want to set up an account?");
         String newUser = userInput.nextLine();
@@ -53,6 +67,12 @@ public class CustomerOperation implements BankOperations {
         addNewUser(newCustomer);
     }
 
+    /**
+     * Adds a new customer to the bank system and generates account information for them.
+     * The customer's details are saved both in memory and appended to a CSV file for persistence.
+     *
+     * @param newCustomer The new customer to be added.
+     */
     public void addNewUser(Customer newCustomer) {
         String address = "\"" + newCustomer.getAddress() + "\"";
         String[] userInfo = {
@@ -71,6 +91,12 @@ public class CustomerOperation implements BankOperations {
         System.out.println("New user added successfully. Your ID is " + newCustomer.getCustomerID());
     }
 
+    /**
+     * Generates account numbers for a new customer and updates their account information.
+     *
+     * @param userInfo The user's personal information to which account information will be appended.
+     * @return The updated user information with account numbers and balances.
+     */
     public String[] createAccounts(String[] userInfo) {
         int checkingAccountNum = generateUniqueAccountNumber(1);
         int savingAccountNum = generateUniqueAccountNumber(2);
@@ -90,6 +116,12 @@ public class CustomerOperation implements BankOperations {
         return updatedUserInfo;
     }
 
+    /**
+     * Generates a unique account number for a specified account type (checking, saving, or credit).
+     *
+     * @param accountType The type of account (1 for checking, 2 for saving, 3 for credit).
+     * @return A unique account number for the specified account type.
+     */
     private int generateUniqueAccountNumber(int accountType) {
         int maxAccountNumber = 1000; // Starting point if no accounts exist
 
@@ -114,6 +146,11 @@ public class CustomerOperation implements BankOperations {
         return maxAccountNumber + 1; // Return the next unique account number
     }
 
+    /**
+     * Appends new user information to the CSV file to persist changes made to the bank's user database.
+     *
+     * @param userInfo The user information to be written to the CSV file.
+     */
     private void appendNewUserToCSV(String[] userInfo) {
         try (FileWriter writer = new FileWriter(CSV_FILE_PATH, true)) {
             writer.write(String.join(",", userInfo) + "\n");
@@ -122,6 +159,12 @@ public class CustomerOperation implements BankOperations {
         }
     }
 
+    /**
+     * Prompts the customer to select an account type and perform operations such as balance inquiry, deposits, 
+     * withdrawals, and transfers.
+     *
+     * @param customerId The ID of the customer whose account operations are to be performed.
+     */
     @Override
     public void selectAccountAndPerformOperations(int customerId) {
         String[] userInfo = bankUsers.get(customerId);
@@ -160,6 +203,11 @@ public class CustomerOperation implements BankOperations {
         }
     }
 
+    /**
+     * Performs the selected operation (inquire balance, deposit, withdraw, or transfer) on the specified account.
+     *
+     * @param account The account on which the operations will be performed.
+     */
     private void performAccountOperations(Account account) {
         System.out.println("Hello " + account.getOwner().getName());
         System.out.println("Choose an action:");
@@ -189,6 +237,12 @@ public class CustomerOperation implements BankOperations {
         }
     }
 
+    /**
+     * Handles the transaction (deposit or withdrawal) for a given account.
+     *
+     * @param account    The account on which the transaction will be performed.
+     * @param isDeposit If true, it's a deposit; if false, it's a withdrawal.
+     */
     @Override
     public void handleTransaction(Account account, boolean isDeposit) {
         System.out.println("Enter amount:");
@@ -210,6 +264,11 @@ public class CustomerOperation implements BankOperations {
         updateBalanceInBankUsers(account, amount, isDeposit);
     }
 
+    /**
+     * Handles a transfer of funds from one account to another.
+     *
+     * @param fromAccount The account from which the funds will be transferred.
+     */
     @Override
     public void handleTransfer(Account fromAccount) {
         System.out.println("Enter recipient's ID:");
@@ -250,6 +309,13 @@ public class CustomerOperation implements BankOperations {
         }
     }
 
+    /**
+     * Updates the balance of a user's account in the system after a transaction (deposit/withdrawal/transfer).
+     *
+     * @param account   The account whose balance will be updated.
+     * @param amount    The amount to be added or subtracted from the balance.
+     * @param isDeposit If true, the amount is added to the balance; if false, it is subtracted.
+     */
     @Override
     public void updateBalanceInBankUsers(Account account, double amount, boolean isDeposit) {
         double currentBalance = Double.parseDouble(bankUsers.get(account.getOwner().getCustomerID())[balanceIndex]);
