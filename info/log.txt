@@ -5,3 +5,4 @@ Donald Duck transferred $450.00 from Saving 2001 to Mickey Mouse's Account 1000.
 Minnie Mouse inquired balance of 2002: $327.99
 Minnie Mouse transferred $450.00 from Checking 1002 to Donald Duck's Account 2001. Checking 1002 Balance: $1444.16. Account 2001 Balance: $4482.37.
 Pluto Disney deposited $4500.00 to Saving 2004. New Balance: $1622.73
+Mickey Mouse deposited $5600.00 to Checking 1000. New Balance: $6003.12
