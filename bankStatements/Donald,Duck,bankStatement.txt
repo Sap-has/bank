@@ -16,5 +16,5 @@ Credit Account Balance: $-1513.57
 
 Date		Description	Account		Withdrawal	Deposit		Balance
 2024-11-12	Withdraw	3001.		$450.00		____		$-1963.57
-2024-11-12	Transfer	2001		$450.00		____		Mouse's
+2024-11-12	Transfer	2001		$450.00		____		$3132.37.
 2024-11-12	Transfer	2001.		____		$450.00		$4482.37.
