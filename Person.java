@@ -4,48 +4,36 @@
  * @author Kayra Dominguez
  */
 public class Person {
-    private String name;
+    private String firstName;
+    private String lastName;
+    private String dateOfBirth;
     private String address;
+    private String phoneNum;
 
     /**
      * 
      * @param name person name
      * @param address person address
      */
-    public Person(String name, String address) {
-        this.name = name;
+    public Person(String fName, String lName, String dob, String address, String phoneNum) {
+        firstName = fName;
+        lastName = lName;
+        dateOfBirth = dob;
         this.address = address;
+        this.phoneNum = phoneNum;
     }
 
-    /**
-     * 
-     * @return person's name
-     */
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
     public String getName() {
-        return name;
+        return getFirstName() + getLastName();
     }
 
-    /**
-     * 
-     * @param name name to give person
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * 
-     * @return person's address
-     */
-    public String getAddress() {
-        return address;
-    }
-
-    /**
-     * 
-     * @param address address to give to person
-     */
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    
 }

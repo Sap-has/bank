@@ -3,3 +3,13 @@ Mickey Mouse inquired balance of 1000: $403.12
 Mickey Mouse deposited $5000.00 to Account 1000
 Mickey Mouse deposited $5000.00 to Account 1000
 Mickey Mouse inquired balance of 3000: $-1653.84
+Mickey Mouse transferred $50.00 from Account 3000 to Donald Duck's Account 1001
+Mickey Mouse inquired balance of 1000: $403.12
+Mickey Mouse inquired balance of 1000: $403.12
+Mickey Mouse deposited $50.00 to Account 2000
+Mickey Mouse inquired balance of 1000: $403.12
+Mickey Mouse deposited $500.00 to Account 1000
+Mickey Mouse withdrew $5.00 from Account 3000
+Mickey Mouse inquired balance of 1000: $403.12
+Mickey Mouse inquired balance of 1000: $403.12
+Mickey Mouse inquired balance of 1000: $403.12

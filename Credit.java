@@ -18,11 +18,11 @@ public class Credit extends Account {
      * @param creditLimit the credit account's credit limit
      * @param principle the amount the person owes 
      */
-    public Credit(String accountNumber, Customer owner, double balance, double creditLimit, double principle, int creditScore) {
+    public Credit(String accountNumber, Customer owner, double balance, double principle, int creditScore) {
         super(accountNumber, owner, balance);
-        this.creditLimit = creditLimit;
         this.principle = principle;
         this.creditScore = creditScore;
+        this.creditLimit = calculateCreditLimit();
     }
 
     /**
@@ -65,13 +65,14 @@ public class Credit extends Account {
         return creditScore;
     }
 
-    public void calculateCreditLimit() {
+    public double calculateCreditLimit() {
         // got these values from the table of creditScores and Credit Limit
         if(creditScore <= 580) creditLimit = new Random().nextInt(600) + 100;
         if(creditScore <= 669) creditLimit = new Random().nextInt(4300) + 700;
         if(creditScore <= 739) creditLimit = new Random().nextInt(2500) + 5000;
         if(creditScore <= 799) creditLimit = new Random().nextInt(8500) + 7500;
         else creditLimit = new Random().nextInt(9001)+ 16000;
+        return creditLimit;
     }
 
     /**

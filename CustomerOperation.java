@@ -8,6 +8,7 @@ public class CustomerOperation implements BankOperations {
     Scanner userInput = new Scanner(System.in);
 
     public void handleUserAccess() {
+        isNewUser();
         System.out.println("Enter the customer ID:");
         String input = userInput.nextLine();
         if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
@@ -21,6 +22,30 @@ public class CustomerOperation implements BankOperations {
         selectAccountAndPerformOperations(customerId);
     }
 
+    public void isNewUser() {
+        System.out.println("Are you a (1) customer with us or (2) do you want to set up an account?");
+        String newUser = userInput.nextLine();
+        if("1".equalsIgnoreCase(newUser)) return;
+
+        System.out.println("Please give your First Name");
+        String firstName = userInput.nextLine();
+
+        System.out.println("Last Name");
+        String lastName = userInput.nextLine();
+
+        System.out.println("Date of Birth (Day-Month-Year)");
+        String dateOfBirth = userInput.nextLine();
+
+        System.out.println("Address (Street, City, State Zipcode)");
+        String address = userInput.nextLine();
+
+        System.out.println("Phone Number");
+        String phoneNum = userInput.nextLine();
+
+        Customer newCustomer = new Customer(firstName, lastName, dateOfBirth, address, phoneNum, bankUsers.size());
+        
+    }
+
     @Override
     public void selectAccountAndPerformOperations(int customerId) {
         String[] userInfo = bankUsers.get(customerId);
@@ -31,26 +56,31 @@ public class CustomerOperation implements BankOperations {
         System.out.println("3. Credit");
 
         String accountType = userInput.nextLine();
-        if (accountType.equalsIgnoreCase(EXIT_COMMAND)) return;
-
-        Account account = RunBank.openAccount(accountType, userInfo, customerId);
-        switch (accountType) {
-            case "1": // Checking
-                balanceIndex = 7; 
-                break;
-            case "2": // Saving
-                balanceIndex = 9; 
-                break;
-            case "3": // Credit
-                balanceIndex = 12;
-                break;
-            default:
-                break;
-        }
-        if (account != null) {
-            performAccountOperations(account);
-        } else {
-            System.out.println("Invalid account type.");
+        while(!accountType.equalsIgnoreCase(EXIT_COMMAND)) {
+            Account account = RunBank.openAccount(accountType, userInfo, customerId);
+            switch (accountType) {
+                case "1": // Checking
+                    balanceIndex = 7; 
+                    break;
+                case "2": // Saving
+                    balanceIndex = 9; 
+                    break;
+                case "3": // Credit
+                    balanceIndex = 12;
+                    break;
+                default:
+                    break;
+            }
+            if (account != null) {
+                performAccountOperations(account);
+            } else {
+                System.out.println("Invalid account type.");
+            }
+            System.out.println("Select an account to access:");
+            System.out.println("1. Checking");
+            System.out.println("2. Saving");
+            System.out.println("3. Credit");
+            accountType = userInput.nextLine();
         }
     }
 

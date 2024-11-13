@@ -14,40 +14,13 @@ public class Customer extends Person {
      * @param address customer address
      * @param customerID customer ID
      */
-    public Customer(String name, String address, int customerID) {
-        super(name, address);
+    public Customer(String fName, String lName, String dob, String address, String phoneNum, int id) {
+        super(fName,lName,dob, address, phoneNum);
         this.accountList = new ArrayList<>();
-        this.customerID = customerID;
+        customerID = id;
     }
 
-    /**
-     * 
-     * @return customer ID
-     */
     public int getCustomerID() {
         return customerID;
-    }
-
-    /**
-     * @param customerID set customer ID
-     */
-    public void setCustomerID(int customerID) {
-        this.customerID = customerID;
-    }
-
-    /**
-     * 
-     * @param account account to add to customer
-     */
-    public void addAccount(Account account) {
-        accountList.add(account);
-    }
-
-    /**
-     * 
-     * @param account account to remove from customer
-     */
-    public void removeAccount(Account account) {
-        accountList.remove(account);
     }
 }

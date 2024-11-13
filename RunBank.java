@@ -115,7 +115,7 @@ public class RunBank {
     }
 
     public static Account openAccount(String accountType, String[] userInfo, int customerId) {
-        Customer customer = new Customer(userInfo[1] + " " + userInfo[2], userInfo[4], customerId);
+        Customer customer = new Customer(userInfo[1], userInfo[2], userInfo[3], userInfo[4], userInfo[5], customerId);
     
         switch (accountType) {
             case "1": // Checking
@@ -125,7 +125,7 @@ public class RunBank {
             case "3": // Credit
                 // Generate or retrieve a persistent credit score for the session
                 int creditScore = creditScores.computeIfAbsent(customerId, k -> new Random().nextInt(851) + 300); // scores from 300-850 (inclusive)
-                return new Credit(userInfo[10], customer, Double.parseDouble(userInfo[12]), Double.parseDouble(userInfo[11]), 0, creditScore);
+                return new Credit(userInfo[10], customer, Double.parseDouble(userInfo[12]), Double.parseDouble(userInfo[11]), creditScore);
             default:
                 return null;
         }
