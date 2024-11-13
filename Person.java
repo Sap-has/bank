@@ -35,5 +35,17 @@ public class Person {
         return getFirstName() + " " + getLastName();
     }
 
+    public String getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
     
 }

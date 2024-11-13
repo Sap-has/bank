@@ -1,12 +1,9 @@
-import java.util.ArrayList;
-
 /**
  * Creates customer 
  * @author Epifanio Sarinana
  * @author Kayra Dominguez
  */
 public class Customer extends Person {
-    private ArrayList<Account> accountList;
     private int customerID;
 
     /**
@@ -16,7 +13,6 @@ public class Customer extends Person {
      */
     public Customer(String fName, String lName, String dob, String address, String phoneNum, int id) {
         super(fName,lName,dob, address, phoneNum);
-        this.accountList = new ArrayList<>();
         customerID = id;
     }
 

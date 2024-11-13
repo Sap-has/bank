@@ -1,7 +1,7 @@
 Identification Number,First Name,Last Name,Date of Birth,Address,Phone Number,Checking Account Number,Checking Starting Balance,Savings Account Number,Savings Starting Balance,Credit Account Number,Credit Max,Credit Starting Balance
-1,Mickey,Mouse,25-Apr-92,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1000,943.12,2000,4389.46,3000,9151,-1653.84
-2,Donald,Duck,7-Apr-94,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1001,2378.58,2001,4032.37,3001,8147,-1963.57
-3,Minnie,Mouse,3-Nov-94,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1002,2344.16,2002,327.99,3002,3442,-239.31
+1,Mickey,Mouse,25-Apr-92,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1000,403.12,2000,4479.46,3000,9151,-1653.84
+2,Donald,Duck,7-Apr-94,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1001,1928.58,2001,3582.37,3001,8147,-1513.57
+3,Minnie,Mouse,3-Nov-94,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1002,1894.16,2002,327.99,3002,3442,-239.31
 4,Goofy,Disney,5-Mar-51,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1003,1456.69,2003,884.26,3003,8647,-141.39
 5,Pluto,Disney,20-Mar-37,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1004,1549.67,2004,1622.73,3004,5415,-1289.68
 6,Chip,Disney,25-Aug-05,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1005,32.84,2005,3687.14,3005,8089,-1451.7
@@ -29,7 +29,7 @@ Identification Number,First Name,Last Name,Date of Birth,Address,Phone Number,Ch
 28,Kaa,Disney,22-Feb-69,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1027,928.76,2027,423.8,3027,3237,-864.26
 29,Evil,Queen,19-Dec-42,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1028,238.09,2028,4844.83,3028,7647,-367.09
 30,Pinocchio,Disney,20-Mar-08,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1029,1280.77,2029,1412.45,3029,9149,-14.76
-31,Prince,Eric,10-Feb-05,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1030,1250.24,2030,4505.0,3030,7019,-1413.12
+31,Prince,Eric,10-Feb-05,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1030,1250.24,2030,4505,3030,7019,-1413.12
 32,Quasimodo,Disney,17-Sep-71,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1031,483.57,2031,2302.79,3031,5023,-1454.15
 33,Hercules,Disney,30-Jun-66,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1032,1270.03,2032,1388.27,3032,5094,-1855.19
 34,Mulan,Disney,14-Oct-79,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1033,1774.26,2033,1216.15,3033,7881,-397.68
@@ -41,7 +41,7 @@ Identification Number,First Name,Last Name,Date of Birth,Address,Phone Number,Ch
 40,Alfredo,Rodriguez,14-Feb-02,"500 W. University Ave, El Paso, TX 79968",(915) 747-5003,1039,1772.98,2039,3443.94,3039,4766,-1734.35
 41,Alyssandra,Cordero,30-Aug-32,"500 W. University Ave, El Paso, TX 79968",(915) 747-5004,1040,1169.49,2040,1375.06,3040,5166,-1725.64
 42,Anthony,Jasso,8-Dec-44,"500 W. University Ave, El Paso, TX 79968",(915) 747-5005,1041,661.74,2041,547.41,3041,3753,-530.31
-43,Arae,Zarzosa,20-Sep-14,"500 W. University Ave, El Paso, TX 79968",(915) 747-5006,1042,1994.56,2042,4248.79,3042,8629,-268.92
+43,Arae,Zarzosa,20-Sep-14,"500 W. University Ave, El Paso, TX 79968",(915) 747-5006,1042,1994.56,2042,4248.79,3042,8629,-268.92103
 44,Brandon,Bustamante,17-Oct-53,"500 W. University Ave, El Paso, TX 79968",(915) 747-5007,1043,355.39,2043,3764.74,3043,6698,-1452.54
 45,Cesar,Cabrera,22-Jun-89,"500 W. University Ave, El Paso, TX 79968",(915) 747-5008,1044,1806.19,2044,1685.66,3044,9182,-1906.17
 46,Christopher,Reyes,4-May-89,"500 W. University Ave, El Paso, TX 79968",(915) 747-5009,1045,1330.23,2045,4039.37,3045,9283,-444.4
@@ -71,7 +71,7 @@ Identification Number,First Name,Last Name,Date of Birth,Address,Phone Number,Ch
 70,Minh,Dang,21-Dec-09,"500 W. University Ave, El Paso, TX 79968",(915) 747-5033,1069,623.42,2069,1691.78,3069,5351,-1966.94
 71,Oscar,Decena,14-Nov-07,"500 W. University Ave, El Paso, TX 79968",(915) 747-5034,1070,1450.22,2070,529.74,3070,8674,-689.71
 72,Robert,Evans,8-Aug-55,"500 W. University Ave, El Paso, TX 79968",(915) 747-5035,1071,1223.55,2071,2907.59,3071,5198,-329.08
-73,Roberto,Carrasco,21-Oct-02,"500 W. University Ave, El Paso, TX 79968",(915) 747-5036,1072,1152.39,2072,2408.91,3072,9319,-160.0
+73,Roberto,Carrasco,21-Oct-02,"500 W. University Ave, El Paso, TX 79968",(915) 747-5036,1072,1152.39,2072,2408.91,3072,9319,-160
 74,Sofia,Hernandez,20-Apr-52,"500 W. University Ave, El Paso, TX 79968",(915) 747-5037,1073,1515.79,2073,740.81,3073,9291,-1721.04
 75,Yulianna,Torres,20-Aug-92,"500 W. University Ave, El Paso, TX 79968",(915) 747-5038,1074,1035.19,2074,3391.57,3074,5431,-1545.62
 76,Nathan,Aun,6-Aug-94,"500 W. University Ave, El Paso, TX 79968",(915) 747-5039,1075,1352.3,2075,132.29,3075,8789,-1240.71
@@ -101,4 +101,5 @@ Identification Number,First Name,Last Name,Date of Birth,Address,Phone Number,Ch
 100,Daniel,W,14-Jun-96,"500 W. University Ave, El Paso, TX 79968",(915) 747-5063,1099,1239.64,2099,261.75,3099,7958,-470.23
 101,Daniel,X,25-Nov-84,"500 W. University Ave, El Paso, TX 79968",(915) 747-5064,1100,122.74,2100,4668.29,3100,5540,-817.67
 102,Daniel,Y,12-Mar-84,"500 W. University Ave, El Paso, TX 79968",(915) 747-5065,1101,738.93,2101,3810.87,3101,6534,-199.91
-103,Daniel,Z,9-Aug-56,"500 W. University Ave, El Paso, TX 79968",(915) 747-5066,1102,1825.29,2102,4635.0,3102,5697,-649.08
+103,Daniel,Z,9-Aug-56,"500 W. University Ave, El Paso, TX 79968",(915) 747-5066,1102,1825.29,2102,4635,3102,5697,-649.08
+104,Epi,Sar,23-11-2005,"El paso Street, El paso, Texas, 88900",915-678-9056,1103,5600.0,2103,0,3103,0,0

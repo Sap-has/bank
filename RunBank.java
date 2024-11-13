@@ -14,7 +14,7 @@ import java.util.Random; // for credit score
 public class RunBank {
     static final HashMap<Integer, String[]> bankUsers = new HashMap<>();
     static final HashMap<Integer, Integer> creditScores = new HashMap<>(); // map to keep track of creditScore (allows for score to persist for duration of session)
-    private static final String CSV_FILE_PATH = "info\\Bank_Users_Reversed_Headers.csv";
+    private static final String CSV_FILE_PATH = "info\\Bank Users.csv";
     private static String CSV_HEADER = "Identification Number,First Name,Last Name,Date of Birth,Address,Phone Number,"+
                 "Checking Account Number,Checking Starting Balance,Savings Account Number,Savings Starting Balance,Credit Account Number,"+
                 "Credit Max,Credit Starting Balance";
@@ -24,7 +24,7 @@ public class RunBank {
         "Savings Account Number", "Savings Starting Balance", "Credit Account Number",
         "Credit Max", "Credit Starting Balance"
     };
-    private static Map<String, Integer> headerIndexMap = new HashMap<>();
+    static Map<String, Integer> headerIndexMap = new HashMap<>();
     private static final String EXIT_COMMAND = "exit";
     private static final String NEW_CSV_FILE_PATH = "info\\New Bank Users.csv";
 
@@ -98,7 +98,7 @@ public class RunBank {
         }
     }
 
-    private static String[] parseCSVLine(String line) {
+    public static String[] parseCSVLine(String line) {
         return line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
     }
 
