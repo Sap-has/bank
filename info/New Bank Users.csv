@@ -1,7 +1,7 @@
 Identification Number,First Name,Last Name,Date of Birth,Address,Phone Number,Checking Account Number,Checking Starting Balance,Savings Account Number,Savings Starting Balance,Credit Account Number,Credit Max,Credit Starting Balance
-1,Mickey,Mouse,25-Apr-92,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1000,403.12,2000,4479.46,3000,9151,-1653.84
-2,Donald,Duck,7-Apr-94,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1001,1928.58,2001,3582.37,3001,8147,-1513.57
-3,Minnie,Mouse,3-Nov-94,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1002,1894.16,2002,327.99,3002,3442,-239.31
+1,Mickey,Mouse,25-Apr-92,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1000,903.1199999999999,2000,4029.46,3000,9151,-1553.84
+2,Donald,Duck,7-Apr-94,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1001,1478.58,2001,3582.37,3001,8147,-1513.57
+3,Minnie,Mouse,3-Nov-94,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1002,1894.16,2002,327.99,3002,3442,4760.69
 4,Goofy,Disney,5-Mar-51,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1003,1456.69,2003,884.26,3003,8647,-141.39
 5,Pluto,Disney,20-Mar-37,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1004,1549.67,2004,1622.73,3004,5415,-1289.68
 6,Chip,Disney,25-Aug-05,"1313 Disneyland Dr, Anaheim, CA 92802",(714) 781-4636,1005,32.84,2005,3687.14,3005,8089,-1451.7

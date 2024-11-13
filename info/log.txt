@@ -1,16 +1,9 @@
-Mickey Mouse deposited $5000.00 to Account 1000
-Mickey Mouse inquired balance of 1000: $403.12
-Mickey Mouse deposited $5000.00 to Account 1000
-Mickey Mouse deposited $5000.00 to Account 1000
-Mickey Mouse inquired balance of 3000: $-1653.84
-Mickey Mouse transferred $50.00 from Account 3000 to Donald Duck's Account 1001
-Mickey Mouse inquired balance of 1000: $403.12
-Mickey Mouse inquired balance of 1000: $403.12
-Mickey Mouse deposited $50.00 to Account 2000
-Mickey Mouse inquired balance of 1000: $403.12
-Mickey Mouse deposited $500.00 to Account 1000
-Mickey Mouse withdrew $5.00 from Account 3000
-Mickey Mouse inquired balance of 1000: $403.12
-Mickey Mouse inquired balance of 1000: $403.12
-Mickey Mouse inquired balance of 1000: $403.12
-DonaldDuck deposited $500.00 to Account 1001. New Balance: $2428.58
+Mickey Mouse deposited $500.00 to Account 1000. New Balance: $903.12
+Mickey Mouse withdrew $47.00 from Account 2000. New Balance: $4432.46
+Mickey Mouse transferred $500.00 from Account 3000 to Donald Duck's Account 1001. Account 3000 Balance: $.2f. Account -2153.84 Balance: $.2f.
+Mickey Mouse deposited $5000.00 to Account 1000. New Balance: $5403.12
+Mickey Mouse withdrew $450.00 from Account 2000. New Balance: $4029.46
+Mickey Mouse transferred $50.00 from Account 3000 to Mickey Mouse's Account 1000. Account 3000 Balance: $.2f. Account -1703.84 Balance: $.2f.
+Mickey Mouse withdrew $4500.00 from Account 1000. New Balance: $903.12
+Donald Duck withdrew $450.00 from Account 1001. New Balance: $1478.58
+Minnie Mouse deposited $5000.00 to Account 3002. New Balance: $4760.69
