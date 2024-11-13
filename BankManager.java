@@ -1,5 +1,8 @@
 import java.util.HashMap;
 import java.util.Scanner;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
 
 public class BankManager implements BankOperations {
     private static final HashMap<Integer, String[]> bankUsers = RunBank.bankUsers; // Reference from RunBank for simplicity
@@ -32,8 +35,19 @@ public class BankManager implements BankOperations {
         System.out.println("1. Checking");
         System.out.println("2. Saving");
         System.out.println("3. Credit");
+        System.out.println("Or Generate a Bank Statement:");
+        System.out.println("4. Generate Bank Statement");
 
         String accountType = userInput.nextLine();
+        if (accountType.equals("4")){
+            try {
+                generateBankStatement(customerId);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            return;
+        }
         if (accountType.equalsIgnoreCase(EXIT_COMMAND)) return;
 
         Account account = RunBank.openAccount(accountType, userInfo, customerId);
@@ -60,6 +74,50 @@ public class BankManager implements BankOperations {
         System.out.println("Credit Account Number: " + userInfo[10]);
         System.out.println("Credit Account Max: $" + userInfo[11]);
         System.out.println("Credit Account Balance: $" + userInfo[12]);
+    }
+
+    private void generateBankStatement(int customerId) throws Exception{
+        String[] userInfo = bankUsers.get(customerId);
+
+        System.out.println("Customer Details:");
+        System.out.println("Name: " + userInfo[1] + " " + userInfo[2]);
+        System.out.println("Address: " + userInfo[4]);
+        System.out.println("Phone Number: " + userInfo[6] + "\n");
+
+        System.out.println("Accounts Details: ");
+        System.out.println("Checking Account Number: " + userInfo[6]);
+        System.out.println("Checking Account Balance: $" + userInfo[7] +"\n");
+
+        System.out.println("Savings Account Number: " + userInfo[8]);
+        System.out.println("Savings Account Balance: $" + userInfo[9] + "\n");
+
+        System.out.println("Credit Account Number: " + userInfo[10]);
+        System.out.println("Credit Account Max: $" + userInfo[11]);
+        System.out.println("Credit Account Balance: $" + userInfo[12]);
+
+        try {
+            Scanner readLog = new Scanner(new File("\\info\\log.txt"));
+            while (readLog.hasNextLine()){
+                String[] logLine = readLog.nextLine().split(" ");
+                //Checking if wanted customer matches the log customer
+                if(logLine[0].equals(bankUsers.get(customerId)[1]) && logLine[1].equals(bankUsers.get(customerId)[2])){
+                    System.out.println(LocalDate.now()+"\t");
+                    switch(logLine[2]){
+                        case "deposited":
+                            System.out.println("Deposit" + "\t" + "$" + logLine[3] + " \tAccount: " + logLine[6] + " \tBalance: $");
+                        case "withdrew":
+                            System.out.println("Withdraw" + "\t" + "$" + logLine[3] + " \tAccount: " + logLine[6] + "\tBalance: $");
+                        case "transferred":
+                            System.out.println("Transfer" + "\t" + "$" + logLine[3] + " \tAccount: " + logLine[6] + " \tBalance: $");
+                    }   
+                    
+                }
+            }
+            readLog.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     @Override
