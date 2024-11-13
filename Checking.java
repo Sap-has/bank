@@ -44,8 +44,8 @@ public class Checking extends Account {
         // Log the deposit only if logTransaction is true
         if (logTransaction) {
             TransactionLog log = new TransactionLog();
-            String logMessage = String.format("%s deposited $%.2f to Account %s",
-                    getOwner().getName(), amount, getAccountNumber());
+            String logMessage = String.format("%s deposited $%.2f to Account %s. New Balance: $%.2f",
+                    getOwner().getName(), amount, getAccountNumber(), getBalance());
             log.logTransaction(logMessage);
             log.saveLog();
         }
@@ -65,8 +65,8 @@ public class Checking extends Account {
         // Log the withdrawal only if logTransaction is true
         if (logTransaction) {
             TransactionLog log = new TransactionLog();
-            String logMessage = String.format("%s withdrew $%.2f from Account %s",
-                    getOwner().getName(), amount, getAccountNumber());
+            String logMessage = String.format("%s withdrew $%.2f from Account %s. New Balance: $%.2f",
+                    getOwner().getName(), amount, getAccountNumber(), getBalance());
             log.logTransaction(logMessage);
             log.saveLog();
         }
@@ -87,8 +87,8 @@ public class Checking extends Account {
     
             // Log the transfer
             TransactionLog log = new TransactionLog();
-            String logMessage = String.format("%s transferred $%.2f from Account %s to %s's Account %s",
-                    getOwner().getName(), amount, getAccountNumber(), toAccount.getOwner().getName(), toAccount.getAccountNumber());
+            String logMessage = String.format("%s transferred $%.2f from Account %s to %s's Account %s. Account %s Balance: $.2f. Account %s Balance: $.2f.",
+                    getOwner().getName(), amount, getAccountNumber(), toAccount.getOwner().getName(), toAccount.getAccountNumber(), getAccountNumber(), getBalance(), toAccount.getAccountNumber(), toAccount.getBalance());
             log.logTransaction(logMessage);
             log.saveLog();
         } catch (Exception e) {
