@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.time.LocalDate;
 
+
 public class BankManager implements BankOperations {
     private static final HashMap<Integer, String[]> bankUsers = RunBank.bankUsers; // Reference from RunBank for simplicity
     private static final String EXIT_COMMAND = "exit";
@@ -21,11 +22,31 @@ public class BankManager implements BankOperations {
             System.out.println("ID does not exist.");
             return;
         }
+        System.out.println("Account Information");
+        displayCustomerDetailsForManager(customerId);
 
-            System.out.println("Account Information");
-            displayCustomerDetailsForManager(customerId);
+
+        System.out.println("\nGenerate a Bank Statement for Customer?");
+        System.out.println("1. Yes");
+        System.out.println("2. No");
+
+
+        int answer = Integer.parseInt(userInput.nextLine());
+        while (answer != 1 && answer != 2){
+            System.out.println("Invalid Input. Put 1 or 2!");
+            answer = Integer.parseInt(userInput.nextLine());
+        }
+        if (answer == 1){
+            try {
+                generateBankStatement(customerId);
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        } else if (answer == 2){
+            return;
+        }
     }
-
 
     @Override
     public void selectAccountAndPerformOperations(int customerId) {
@@ -35,8 +56,6 @@ public class BankManager implements BankOperations {
         System.out.println("1. Checking");
         System.out.println("2. Saving");
         System.out.println("3. Credit");
-        System.out.println("Or Generate a Bank Statement:");
-        System.out.println("4. Generate Bank Statement");
 
         String accountType = userInput.nextLine();
         if (accountType.equals("4")){
@@ -61,16 +80,12 @@ public class BankManager implements BankOperations {
 
     private void displayCustomerDetailsForManager(int customerId) {
         String[] userInfo = bankUsers.get(customerId);
-
         System.out.println("Customer Details:");
         System.out.println("Name: " + userInfo[1] + " " + userInfo[2]);
-
         System.out.println("Checking Account Number: " + userInfo[6]);
         System.out.println("Checking Account Balance: $" + userInfo[7]);
-
         System.out.println("Savings Account Number: " + userInfo[8]);
         System.out.println("Savings Account Balance: $" + userInfo[9]);
-
         System.out.println("Credit Account Number: " + userInfo[10]);
         System.out.println("Credit Account Max: $" + userInfo[11]);
         System.out.println("Credit Account Balance: $" + userInfo[12]);
@@ -78,7 +93,6 @@ public class BankManager implements BankOperations {
 
     private void generateBankStatement(int customerId) throws Exception{
         String[] userInfo = bankUsers.get(customerId);
-
         System.out.println("Customer Details:");
         System.out.println("Name: " + userInfo[1] + " " + userInfo[2]);
         System.out.println("Address: " + userInfo[4]);
@@ -93,24 +107,30 @@ public class BankManager implements BankOperations {
 
         System.out.println("Credit Account Number: " + userInfo[10]);
         System.out.println("Credit Account Max: $" + userInfo[11]);
-        System.out.println("Credit Account Balance: $" + userInfo[12]);
+        System.out.println("Credit Account Balance: $" + userInfo[12] + "\n");
+
+        System.out.println("Date\t\tDescription\tAccount\t\tWithdrawal\tDeposit\t\tBalance");
 
         try {
-            Scanner readLog = new Scanner(new File("\\info\\log.txt"));
+            Scanner readLog = new Scanner(new File("info\\log.txt"));
+            //Scanner readLog = new Scanner(new File("C:\\Users\\Kayra Dominguez\\OneDrive\\Documents\\CS Codes\\CS4\\Bank\\bank\\info\\log.txt"));
             while (readLog.hasNextLine()){
                 String[] logLine = readLog.nextLine().split(" ");
                 //Checking if wanted customer matches the log customer
                 if(logLine[0].equals(bankUsers.get(customerId)[1]) && logLine[1].equals(bankUsers.get(customerId)[2])){
-                    System.out.println(LocalDate.now()+"\t");
                     switch(logLine[2]){
                         case "deposited":
-                            System.out.println("Deposit" + "\t" + "$" + logLine[3] + " \tAccount: " + logLine[6] + " \tBalance: $");
+                            System.out.println(LocalDate.now()+"\t" + "Deposit" + "\t\t" + logLine[6] + "\t\t____\t\t" + logLine[3] + "\t\t" + logLine[9]);
+                            break;
                         case "withdrew":
-                            System.out.println("Withdraw" + "\t" + "$" + logLine[3] + " \tAccount: " + logLine[6] + "\tBalance: $");
+                            System.out.println(LocalDate.now()+"\t" + "Withdraw" + "\t" + logLine[6] + "\t\t" + logLine[3] + "\t\t____\t\t" + logLine[9]);
+                            break;
                         case "transferred":
-                            System.out.println("Transfer" + "\t" + "$" + logLine[3] + " \tAccount: " + logLine[6] + " \tBalance: $");
-                    }   
-                    
+                            System.out.println(LocalDate.now()+"\t" + "Transfer" + "\t" + logLine[6] + "\t\t" + logLine[3] + "\t\t____\t\t" + logLine[9]);
+                            break;
+                    }  
+                } else if (logLine.length > 7 && logLine[8].equals(bankUsers.get(customerId)[1]) && (logLine[9].split("\\'"))[0].equals(bankUsers.get(customerId)[2])){
+                    System.out.println(LocalDate.now()+"\t" + "Transfer" + "\t" + logLine[11] + "\t\t____\t\t" + logLine[3] + "\t\t" + logLine[19]);
                 }
             }
             readLog.close();
@@ -136,6 +156,7 @@ public class BankManager implements BankOperations {
     public void updateBalanceInBankUsers(Account account, double amount, boolean isDeposit) {
         double currentBalance = Double.parseDouble(bankUsers.get(account.getOwner().getCustomerID())[balanceIndex]);
         double updatedBalance = isDeposit ? currentBalance + amount : currentBalance - amount;
+
 
         String[] updatedUserInfo = bankUsers.get(account.getOwner().getCustomerID());
         updatedUserInfo[balanceIndex] = Double.toString(updatedBalance);
