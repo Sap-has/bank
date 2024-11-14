@@ -17,6 +17,7 @@ import java.time.LocalDate;
 public class BankManager implements BankOperations {
 
     private static final HashMap<Integer, String[]> bankUsers = RunBank.bankUsers; // Reference from RunBank for simplicity
+    private static final HashMap<String, Integer> bankUserNames = RunBank.bankUserNames;
     private static final String EXIT_COMMAND = "exit";
     private static int balanceIndex;
     private final static String TRANSACTION_PATH = "info\\Transactions.csv";
@@ -28,11 +29,16 @@ public class BankManager implements BankOperations {
      */
     public void handleUserAccess() {
         while (true) {
-            System.out.println("Enter the customer ID (or type 'exit' to exit):");
+            System.out.println("Enter the customer ID or Full Name (or type 'exit' to exit):");
             String input = userInput.nextLine();
+            int customerId;
             if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
-
-            int customerId = Integer.parseInt(input);
+            if (input.split(" ").length == 2){
+                //find customer id with full name in hashmap and make input the id
+                customerId = bankUserNames.get(input);
+            }else{
+                customerId = Integer.parseInt(input);
+            }
 
             if (!bankUsers.containsKey(customerId)) {
             System.out.println("ID does not exist.");
