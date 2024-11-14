@@ -25,6 +25,8 @@ public class RunBank {
 
     static final HashMap<String, Integer> bankUserNames = new HashMap<>();
 
+    static final HashMap<Integer, String[]> initialBalances = new HashMap<>();
+
     /**
      * A HashMap that stores the credit scores for each customer, allowing the score to persist 
      * throughout the session.
@@ -150,6 +152,9 @@ public class RunBank {
                 bankUsers.put(id, orderedData);
                 //Store ids in the map with the full name as the key
                 bankUserNames.put(orderedData[1]+" "+orderedData[2], id);
+                //Store initial balances to use for user transactions file
+                String[] balances = {orderedData[7], orderedData[9], orderedData[12]};
+                initialBalances.put(id, balances);
             }
         }
     }
