@@ -407,6 +407,20 @@ public class CustomerOperation implements BankOperations {
             return;
         }
 
+        while(recipientAccount.getAccountNumber() == fromAccount.getAccountNumber()) {
+            System.out.println("Cannot transfer to same account!");
+            System.out.println("Enter recipient account type (1: Checking, 2: Saving, 3: Credit):");
+            recipientAccountType = userInput.nextLine();
+            if (recipientAccountType.equalsIgnoreCase(EXIT_COMMAND)) return;
+
+            recipientAccount = RunBank.openAccount(recipientAccountType, bankUsers.get(recipientID), recipientID);
+
+            if (recipientAccount == null) {
+                System.out.println("Invalid recipient account type.");
+                return;
+            }
+        }
+
         System.out.println("Enter transfer amount:");
         input = userInput.nextLine();
         if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
