@@ -57,6 +57,7 @@ public class CustomerOperation implements BankOperations {
         while(true) {
             System.out.println("Are you a (1) customer with us or (2) do you want to set up an account?");
             String newUser = userInput.nextLine();
+            if (newUser.equalsIgnoreCase(EXIT_COMMAND)) return;
 
             if("1".equalsIgnoreCase(newUser)) return;
             if("2".equals(newUser)) {
@@ -358,7 +359,6 @@ public class CustomerOperation implements BankOperations {
      * @param account    The account on which the transaction will be performed.
      * @param isDeposit If true, it's a deposit; if false, it's a withdrawal.
      */
-    @Override
     public void handleTransaction(Account account, boolean isDeposit) {
         System.out.println("Enter amount:");
         String input = userInput.nextLine();
@@ -384,7 +384,6 @@ public class CustomerOperation implements BankOperations {
      *
      * @param fromAccount The account from which the funds will be transferred.
      */
-    @Override
     public void handleTransfer(Account fromAccount) {
         System.out.println("Enter recipient's ID:");
         String input = userInput.nextLine();

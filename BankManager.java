@@ -1,9 +1,10 @@
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -29,6 +30,7 @@ public class BankManager implements BankOperations {
      */
     public void handleUserAccess() {
         while (true) {
+            handleReadingTransaction();
             System.out.println("Enter the customer ID or Full Name (or type 'exit' to exit):");
             String input = userInput.nextLine();
             int customerId;
@@ -66,6 +68,20 @@ public class BankManager implements BankOperations {
                 }
             } else {
                 return;  // Exit handleUserAccess method
+            }
+        }
+    }
+
+    private void handleReadingTransaction() {
+        while (true) {
+            String input;
+            System.out.println("Do you want to process the transaction file? (1: yes, 2: no)");
+            input = userInput.nextLine();
+            if(input.equals(EXIT_COMMAND)) return;
+            if(input.equals("2")) return;
+            if(input.equals("1")) {
+                transactionReader();
+                return;
             }
         }
     }
@@ -164,16 +180,120 @@ public class BankManager implements BankOperations {
         }
     }
 
-    private void readTransactionFile() {
-        try(Scanner readTransaction = new Scanner(new File(TRANSACTION_PATH))) {
-            while(readTransaction.hasNextLine()) {
-                String[] transactionOperation = readTransaction.nextLine().split(",");
-                System.out.println(Arrays.toString(transactionOperation));
+    public void transactionReader() {
+        try (BufferedReader br = new BufferedReader(new FileReader(TRANSACTION_PATH))) {
+            String line = br.readLine();
+            while ((line = br.readLine()) != null) {
+                processTransaction(line);
             }
-        } catch (FileNotFoundException e) {
-            System.err.println("Error reading the log file: " + e.getMessage());
-            e.printStackTrace();
+        } catch (IOException e) {
+            System.out.println("Error reading transactions file: " + e.getMessage());
         }
+    }
+
+    private void processTransaction(String transaction) {
+        String[] parts = transaction.split(",");
+        String fromFirstName = parts[0];
+        String fromLastName = parts[1];
+        String fromAccountType = parts[2];
+        String action = parts[3];
+        String toFirstName = parts.length > 4 ? parts[4]: "";
+        String toLastName = parts.length > 5 ? parts[5]: "";
+        String toAccountType = parts.length > 6 ? parts[6]: "";
+        double amount = parts.length > 7 ? Double.parseDouble(parts[7]) : -1;
+
+        Account fromAccount = null;
+        Account toAccount = null;
+
+        if(fromAccountType.equals("Checking")) fromAccountType = "1";
+        else if(fromAccountType.equals("Savings")) fromAccountType = "2";
+        else fromAccountType = "3";
+
+        if (!fromFirstName.isEmpty() && !fromLastName.isEmpty()) {
+            int fromUserId = getUserId(fromFirstName, fromLastName);
+            fromAccount = RunBank.openAccount(fromAccountType, bankUsers.get(fromUserId), fromUserId);
+    
+            if (fromAccount == null) {
+                System.out.println("Error: 'From' account not found for " + fromFirstName + " " + fromLastName);
+                return;
+            }
+        }
+    
+        if (!toFirstName.isEmpty() && !toLastName.isEmpty()) {
+            int toUserId = getUserId(toFirstName, toLastName);
+            toAccount = RunBank.openAccount(toAccountType, bankUsers.get(toUserId), toUserId);
+    
+            if (toAccount == null) {
+                System.out.println("Error: 'To' account not found for " + toFirstName + " " + toLastName);
+                return;
+            }
+        }
+
+        switch (action) {
+            case "pays":
+                if (fromAccount != null && toAccount != null) {
+                    handlePay(fromAccount, toAccount, amount);
+                } else {
+                    System.out.println("Payment failed: Missing 'from' or 'to' account information.");
+                }
+                break;
+            case "transfers":
+                if (fromAccount != null) {
+                    handleTransfer(fromAccount, toAccount, amount);
+                } else {
+                    System.out.println("Transfer failed: Missing 'from' account information.");
+                }
+                break;
+            case "inquires":
+                if (fromAccount != null) {
+                    handleInquiry(fromAccount);
+                } else {
+                    System.out.println("Inquiry failed: Missing 'from' account information.");
+                }
+                break;
+            case "withdraws":
+                if (fromAccount != null) {
+                    handleTransaction(fromAccount, amount, false); // Withdrawal
+                } else {
+                    System.out.println("Withdrawal failed: Missing 'from' account information.");
+                }
+                break;
+            case "deposits":
+                if (toAccount != null) {
+                    handleTransaction(toAccount, amount, true); // Deposit
+                } else {
+                    System.out.println("Deposit failed: Missing 'to' account information.");
+                }
+                break;
+            default:
+                System.out.println("Unknown transaction type: " + action);
+                break;
+        }
+    }
+
+    private void handlePay(Account fromAccount, Account toAccount, double amount) {
+        if (toAccount == null) {
+            System.out.println("Error: Recipient account not found for " + fromAccount.getOwner().getName());
+            return;
+        }
+
+        try {
+            fromAccount.transferTransaction(toAccount, amount);
+            updateBalanceInBankUsers(fromAccount, -amount, false);
+            updateBalanceInBankUsers(toAccount, amount, true);
+            System.out.println("Payment successful: " + amount + " from " + fromAccount.getOwner().getName() + " to " + toAccount.getOwner().getName());
+        } catch (Exception e) {
+            System.out.println("Payment failed: " + e.getMessage());
+        }
+    }
+
+    private void handleInquiry(Account account) {
+        System.out.println("Account inquiry for " + account.getOwner().getName() + " on " + account.getAccountNumber());
+        System.out.println("Current balance: " + account.getBalance());
+    }
+
+    private int getUserId(String firstName, String lastName) {
+        return bankUserNames.get(firstName + " " + lastName);
     }
 
     /**
@@ -183,10 +303,18 @@ public class BankManager implements BankOperations {
      * @param account The account on which the transaction would occur.
      * @param isDeposit Whether the transaction is a deposit (true) or withdrawal (false).
      */
-    @Override
-    public void handleTransaction(Account account, boolean isDeposit) {
-        // Manager may not handle direct transactions in this example.
-        System.out.println("Managers are not permitted to perform this transaction.");
+    public void handleTransaction(Account account, double amount, boolean isDeposit) {
+        if (isDeposit) {
+            account.depositTransaction(amount, true);
+        } else {
+            try {
+                account.withdrawTransaction(amount, true);
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
+
+        updateBalanceInBankUsers(account, amount, isDeposit);
     }
 
     /**
@@ -195,10 +323,15 @@ public class BankManager implements BankOperations {
      *
      * @param fromAccount The account from which the transfer would be made.
      */
-    @Override
-    public void handleTransfer(Account fromAccount) {
-        // Manager may not handle direct transfers in this example.
-        System.out.println("Managers are not permitted to perform transfers.");
+    public void handleTransfer(Account fromAccount, Account toAccount, double amount) {
+        try {
+            fromAccount.transferTransaction(toAccount, amount);
+            updateBalanceInBankUsers(fromAccount, -amount, false);
+            updateBalanceInBankUsers(toAccount, amount, true);
+            System.out.println("Transfer successful.");
+        } catch (Exception e) {
+            System.out.println("Transfer failed: " + e.getMessage());
+        }
     }
 
     /**
