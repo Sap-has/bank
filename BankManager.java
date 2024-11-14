@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Scanner;
 import java.io.BufferedWriter;
@@ -18,6 +19,7 @@ public class BankManager implements BankOperations {
     private static final HashMap<Integer, String[]> bankUsers = RunBank.bankUsers; // Reference from RunBank for simplicity
     private static final String EXIT_COMMAND = "exit";
     private static int balanceIndex;
+    private final static String TRANSACTION_PATH = "info\\Transactions.csv";
     private Scanner userInput = new Scanner(System.in);
 
     /**
@@ -101,7 +103,7 @@ public class BankManager implements BankOperations {
         }
 
         // Construct the file path using the first name and last name
-        String fileName = firstName + "," + lastName + ",bankStatement.txt";
+        String fileName = firstName + "_" + lastName + "-bankStatement.txt";
         File file = new File(directory, fileName);
 
         // Write to the file
@@ -152,6 +154,18 @@ public class BankManager implements BankOperations {
 
         } catch (IOException e) {
             System.err.println("Error writing to the file: " + e.getMessage());
+            e.printStackTrace();
+        }
+    }
+
+    private void readTransactionFile() {
+        try(Scanner readTransaction = new Scanner(new File(TRANSACTION_PATH))) {
+            while(readTransaction.hasNextLine()) {
+                String[] transactionOperation = readTransaction.nextLine().split(",");
+                System.out.println(Arrays.toString(transactionOperation));
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Error reading the log file: " + e.getMessage());
             e.printStackTrace();
         }
     }
