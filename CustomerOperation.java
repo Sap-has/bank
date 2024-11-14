@@ -219,16 +219,16 @@ public class CustomerOperation implements BankOperations {
             writer.write("Accounts Details:\n");
             writer.write("Checking Account Number: " + userInfo[6] + "\n");
             writer.write("Checking Account Starting Balance: $" + initialBalances.get(customerId)[0] + "\n");
-            writer.write("Checking Account Final Balance: $" + bankUsers.get(customerId)[7] + "\n\n");
+            writer.write("Checking Account Final Balance: $" + userInfo[7] + "\n\n");
 
             writer.write("Savings Account Number: " + userInfo[8] + "\n");
             writer.write("Savings Account Starting Balance: $" + initialBalances.get(customerId)[1] + "\n");
-            writer.write("Savings Account Final Balance: $" + bankUsers.get(customerId)[9] + "\n\n");
+            writer.write("Savings Account Final Balance: $" + userInfo[9] + "\n\n");
 
             writer.write("Credit Account Number: " + userInfo[10] + "\n");
             writer.write("Credit Account Max: $" + userInfo[11] + "\n");
             writer.write("Credit Account Starting Balance: $" + initialBalances.get(customerId)[2] + "\n");
-            writer.write("Credit Account Final Balance: $" + bankUsers.get(customerId)[12] + "\n\n");
+            writer.write("Credit Account Final Balance: $" + userInfo[12] + "\n\n");
 
             writer.write("Date of Statement: " + LocalDate.now() + "\n\n");
 
