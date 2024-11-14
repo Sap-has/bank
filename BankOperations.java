@@ -1,3 +1,6 @@
+/**
+ * Interface for both the CustomerOperation and BankManager class
+ */
 interface BankOperations {
     // attributes public static final
     abstract public void handleUserAccess();
