@@ -49,29 +49,44 @@ public class CustomerOperation implements BankOperations {
      * If setting up a new account, it collects customer details and adds them to the system.
      */
     public void isNewUser() {
-        System.out.println("Are you a (1) customer with us or (2) do you want to set up an account?");
-        String newUser = userInput.nextLine();
-        if("1".equalsIgnoreCase(newUser)) return;
-        
-        System.out.println("Please provide the following information to set up your account.");
+        while(true) {
+            System.out.println("Are you a (1) customer with us or (2) do you want to set up an account?");
+            String newUser = userInput.nextLine();
 
-        System.out.println("First Name:");
-        String firstName = userInput.nextLine();
+            if("1".equalsIgnoreCase(newUser)) return;
+            if("2".equals(newUser)) {
+                System.out.println("Please provide the following information to set up your account.");
 
-        System.out.println("Last Name:");
-        String lastName = userInput.nextLine();
+                System.out.println("First Name:");
+                String input = userInput.nextLine();
+                if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
+                String firstName = userInput.nextLine();
 
-        System.out.println("Date of Birth (Day-Month-Year):");
-        String dateOfBirth = userInput.nextLine();
+                System.out.println("Last Name:");
+                input = userInput.nextLine();
+                if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
+                String lastName = userInput.nextLine();
 
-        System.out.println("Address (Street, City, State Zipcode):");
-        String address = userInput.nextLine();
+                System.out.println("Date of Birth (Day-Month-Year):");
+                input = userInput.nextLine();
+                if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
+                String dateOfBirth = userInput.nextLine();
 
-        System.out.println("Phone Number (format: xxx-xxx-xxxx):");
-        String phoneNum = userInput.nextLine();
+                System.out.println("Address (Street, City, State Zipcode):");
+                input = userInput.nextLine();
+                if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
+                String address = userInput.nextLine();
 
-        Customer newCustomer = new Customer(firstName, lastName, dateOfBirth, address, phoneNum, bankUsers.size()+1);
-        addNewUser(newCustomer);
+                System.out.println("Phone Number (format: xxx-xxx-xxxx):");
+                input = userInput.nextLine();
+                if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
+                String phoneNum = userInput.nextLine();
+
+                Customer newCustomer = new Customer(firstName, lastName, dateOfBirth, address, phoneNum, bankUsers.size()+1);
+                addNewUser(newCustomer);
+                return;
+            }
+        }
     }
 
     /**
