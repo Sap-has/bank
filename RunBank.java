@@ -34,7 +34,8 @@ public class RunBank {
     /**
      * The path to the CSV file that contains the bank users' information.
      */
-    private static final String CSV_FILE_PATH = "info\\Bank Users.csv";
+    //private static final String CSV_FILE_PATH = "info\\Bank Users.csv";
+    private static final String CSV_FILE_PATH = "C:\\Users\\Kayra Dominguez\\OneDrive\\Documents\\CS Codes\\CS4\\Bank\\bank\\info\\Bank Users.csv";
 
     /**
      * The header for the CSV file containing bank user data.

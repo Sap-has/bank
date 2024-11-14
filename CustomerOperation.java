@@ -12,6 +12,7 @@ import java.util.Scanner;
  */
 public class CustomerOperation implements BankOperations {
     private static final HashMap<Integer, String[]> bankUsers = RunBank.bankUsers; // Reference from RunBank for simplicity
+    private static final HashMap<String, Integer> bankUserNames = RunBank.bankUserNames;
     private static final Map<String, Integer> headerIndexMap = RunBank.headerIndexMap;
     private static final String CSV_FILE_PATH = "info\\Bank Users.csv";
     private static final String EXIT_COMMAND = "exit";
@@ -24,11 +25,17 @@ public class CustomerOperation implements BankOperations {
      */
     public void handleUserAccess() {
         isNewUser();
-        System.out.println("Enter the customer ID:");
+        int customerId;
+        System.out.println("Enter the customer ID or Full Name (First Name Last Name):");
         String input = userInput.nextLine();
         if (input.equalsIgnoreCase(EXIT_COMMAND)) return;
-
-        int customerId = Integer.parseInt(input);
+        if (input.split(" ").length == 2){
+            //find customer id with full name in hashmap and make input the id
+            customerId = bankUserNames.get(input);
+        }else{
+            customerId = Integer.parseInt(input);
+        }
+        //TODO: handle errors if not name lol uwu
 
         if (!bankUsers.containsKey(customerId)) {
             System.out.println("ID does not exist.");
