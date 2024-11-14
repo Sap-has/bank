@@ -285,37 +285,40 @@ public class CustomerOperation implements BankOperations {
         System.out.println("4. Create");
 
         String accountType = userInput.nextLine();
-        while(!accountType.equalsIgnoreCase(EXIT_COMMAND)) {
-            Account account = RunBank.openAccount(accountType, userInfo, customerId);
-            switch (accountType) {
-                case "1": // Checking
-                    balanceIndex = 7; 
-                    break;
-                case "2": // Saving
-                    balanceIndex = 9; 
-                    break;
-                case "3": // Credit
-                    balanceIndex = 12;
-                    break;
-                case "4": //Generate Transactions File
-                    try {
-                        generateUserTransactionsFile(customerId);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                default:
-                    break;
+        if(Integer.parseInt(accountType) == 4){
+        //Generate Transactions File
+            try {
+                generateUserTransactionsFile(customerId);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            if (account != null) {
-                performAccountOperations(account);
-            } else {
-                System.out.println("Invalid account type.");
+        } else{
+            while(!accountType.equalsIgnoreCase(EXIT_COMMAND)) {
+                Account account = RunBank.openAccount(accountType, userInfo, customerId);
+                switch (accountType) {
+                    case "1": // Checking
+                        balanceIndex = 7; 
+                        break;
+                    case "2": // Saving
+                        balanceIndex = 9; 
+                        break;
+                    case "3": // Credit
+                        balanceIndex = 12;
+                        break;
+                    default:
+                        break;
+                }
+                if (account != null) {
+                    performAccountOperations(account);
+                } else {
+                    System.out.println("Invalid account type.");
+                }
+                System.out.println("Select an account to access:");
+                System.out.println("1. Checking");
+                System.out.println("2. Saving");
+                System.out.println("3. Credit");
+                accountType = userInput.nextLine();
             }
-            System.out.println("Select an account to access:");
-            System.out.println("1. Checking");
-            System.out.println("2. Saving");
-            System.out.println("3. Credit");
-            accountType = userInput.nextLine();
         }
     }
 
