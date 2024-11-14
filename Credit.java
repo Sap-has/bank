@@ -145,16 +145,4 @@ public class Credit extends Account {
         log.logTransaction(logMessage);
         log.saveLog();
     }
-
-    @Override
-    protected boolean validateDeposit(double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateDeposit'");
-    }
-
-    @Override
-    protected boolean validateWithdrawal(double amount) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'validateWithdrawal'");
-    }
 }

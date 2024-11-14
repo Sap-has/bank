@@ -72,6 +72,9 @@ public class BankManager implements BankOperations {
         }
     }
 
+    /**
+     * user interaction if they want to read the Transaction file
+     */
     private void handleReadingTransaction() {
         while (true) {
             String input;
@@ -180,6 +183,9 @@ public class BankManager implements BankOperations {
         }
     }
 
+    /**
+     * Reads the Transaction file
+     */
     public void transactionReader() {
         try (BufferedReader br = new BufferedReader(new FileReader(TRANSACTION_PATH))) {
             String line = br.readLine();
@@ -191,6 +197,10 @@ public class BankManager implements BankOperations {
         }
     }
 
+    /**
+     * Decided the transactions to be done, depending on keywords
+     * @param transaction
+     */
     private void processTransaction(String transaction) {
         String[] parts = transaction.split(",");
         String fromFirstName = parts[0];
@@ -271,6 +281,12 @@ public class BankManager implements BankOperations {
         }
     }
 
+    /**
+     * Handles paying accounts from the Transaction Reader
+     * @param fromAccount
+     * @param toAccount
+     * @param amount
+     */
     private void handlePay(Account fromAccount, Account toAccount, double amount) {
         if (toAccount == null) {
             System.out.println("Error: Recipient account not found for " + fromAccount.getOwner().getName());
@@ -287,11 +303,21 @@ public class BankManager implements BankOperations {
         }
     }
 
+    /**
+     * Hanldes doing an inquiry from the Transaction reader
+     * @param account
+     */
     private void handleInquiry(Account account) {
         System.out.println("Account inquiry for " + account.getOwner().getName() + " on " + account.getAccountNumber());
         System.out.println("Current balance: " + account.getBalance());
     }
 
+    /**
+     * Returns id using first and last name of user
+     * @param firstName
+     * @param lastName
+     * @return
+     */
     private int getUserId(String firstName, String lastName) {
         return bankUserNames.get(firstName + " " + lastName);
     }
@@ -301,6 +327,7 @@ public class BankManager implements BankOperations {
      * to perform transactions directly.
      *
      * @param account The account on which the transaction would occur.
+     * @param amount The amount being deposited/withdrawn
      * @param isDeposit Whether the transaction is a deposit (true) or withdrawal (false).
      */
     public void handleTransaction(Account account, double amount, boolean isDeposit) {
@@ -322,6 +349,8 @@ public class BankManager implements BankOperations {
      * transfers directly.
      *
      * @param fromAccount The account from which the transfer would be made.
+     * @param toAccount The account which gets the transfer
+     * @param amount Amount of money being transferred
      */
     public void handleTransfer(Account fromAccount, Account toAccount, double amount) {
         try {

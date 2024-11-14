@@ -235,7 +235,7 @@ public class CustomerOperation implements BankOperations {
             writer.write("Date\t\tDescription\tAccount\t\tWithdrawal\tDeposit\t\tBalance\n");
 
             //Print transactions
-            try (Scanner readLog = new Scanner(new File("C:\\Users\\Kayra Dominguez\\OneDrive\\Documents\\CS Codes\\CS4\\Bank\\bank\\info\\log.txt"))) {
+            try (Scanner readLog = new Scanner(new File("info\\log.txt"))) {
                 
                 while (readLog.hasNextLine()) {
                     String[] logLine = readLog.nextLine().split(" ");
@@ -285,7 +285,7 @@ public class CustomerOperation implements BankOperations {
         System.out.println("4. Create");
 
         String accountType = userInput.nextLine();
-        if(Integer.parseInt(accountType) == 4){
+        if(accountType.equals("4")){
         //Generate Transactions File
             try {
                 generateUserTransactionsFile(customerId);

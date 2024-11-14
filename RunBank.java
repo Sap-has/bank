@@ -31,8 +31,7 @@ public class RunBank {
     /**
      * The path to the CSV file that contains the bank users' information.
      */
-    //private static final String CSV_FILE_PATH = "info\\Bank Users.csv";
-    private static final String CSV_FILE_PATH = "C:\\Users\\Kayra Dominguez\\OneDrive\\Documents\\CS Codes\\CS4\\Bank\\bank\\info\\Bank Users.csv";
+    private static final String CSV_FILE_PATH = "info\\Bank Users.csv";
 
     /**
      * The header for the CSV file containing bank user data.
@@ -145,9 +144,9 @@ public class RunBank {
 
                 // Store the ordered data in the map with id as the key
                 bankUsers.put(id, orderedData);
-                //Store ids in the map with the full name as the key
-                bankUserNames.put(orderedData[1]+" "+orderedData[2], id);
-                //Store initial balances to use for user transactions file
+                // Store ids in the map with the full name as the key
+                bankUserNames.put(orderedData[1] + " " + orderedData[2], id);
+                // Store initial balances to use for user transactions file
                 String[] balances = {orderedData[7], orderedData[9], orderedData[12]};
                 initialBalances.put(id, balances);
             }
