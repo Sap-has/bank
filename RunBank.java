@@ -10,11 +10,6 @@ import java.util.Random;
  * The RunBank class is the entry point of the bank system. It provides the functionality 
  * to load bank users from a CSV file, handle user input, and allow users to access the 
  * bank system as either a customer or a bank manager.
- * <p>
- * The bank users' data is persisted in a CSV file, and the system supports operations like 
- * creating new accounts and updating information. Users can exit the system at any time 
- * by typing 'exit'.
- * </p>
  */
 public class RunBank {
 
