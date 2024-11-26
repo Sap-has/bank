@@ -1,0 +1,4 @@
+Mickey Mouse deposited $4567.00 to Checking 1000. New Balance: $4970.12
+Mickey Mouse deposited $56678.00 to Saving 2000. New Balance: $61157.46
+  deposited $5000.00 to Checking 1103. New Balance: $5000.00
+  withdrew $450.00 from Checking 1103. New Balance: $4550.00
