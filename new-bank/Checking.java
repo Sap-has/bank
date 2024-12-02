@@ -33,7 +33,7 @@ public class Checking extends Account {
     */
     public void withdrawTransaction(double amount, boolean logTransaction) throws Exception  {
         if (getBalance() < amount) {
-            throw new Exception("Insufficient Funds");
+            throw new insufficientFundsException();
         }
         setBalance(getBalance() - amount);
     

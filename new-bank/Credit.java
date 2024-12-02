@@ -94,7 +94,7 @@ public class Credit extends Account {
      */
     public void withdrawTransaction(double amount, boolean logTransaction) throws Exception {
         if (Math.abs(getBalance()) < amount && (creditLimit - Math.abs(getBalance())) < amount) {
-            throw new Exception("Insufficient balance for withdrawal.");
+            throw new insufficientFundsException();
         }
         setBalance(getBalance() - amount);
     
