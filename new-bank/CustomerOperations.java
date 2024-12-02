@@ -14,6 +14,7 @@ public class CustomerOperations implements BankOperations {
         if (callToLogIn() == null) return;
         while(true) {
             handleOperations();
+            System.out.println("To continue doing more transaction press enter, else type exit to exit");
             String input = userInput.nextLine();
             if(input.equalsIgnoreCase(EXIT_COMMAND)) return;
         }
