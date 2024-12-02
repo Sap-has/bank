@@ -34,7 +34,7 @@ public class Saving extends Account {
      */
     public void withdrawTransaction(double amount, boolean logTransaction) throws Exception {
         if (!(amount > 0 && getBalance() >= amount)) {
-            throw new Exception("Insufficient balance for withdrawal.");
+            throw new insufficientFundsException();
         }
         setBalance(getBalance() - amount);
     
