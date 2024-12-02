@@ -17,10 +17,8 @@ public class User {
     public void handleNewUser() {
         String[] info = newUser();
         int creditScore = creditScoreValidation();
-        System.out.println(creditScore);
-        double creditLimit = 
+        double creditLimit = 0;
         info = createAccounts(info);
-        
         addNewUser(new Customer(info[0], info[1], info[2], info[3], info[4], Integer.parseInt(info[5]), info[6], Double.parseDouble(info[7]), info[8], Double.parseDouble(info[9]), info[10], Double.parseDouble(info[11]), Double.parseDouble(info[12])));
     }
 
@@ -124,7 +122,7 @@ public class User {
             newCustomer.getLastName(),
             newCustomer.getDateOfBirth(),
             address,
-            newCustomer.getPhoneNum()
+            newCustomer.getPhoneNum(),
         };
         userInfo = createAccounts(userInfo); // add account numbers and balances
         bankUsers.put(newCustomer.getCustomerID(), userInfo);

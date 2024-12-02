@@ -17,7 +17,7 @@ public class Credit extends Account {
         super(accountNumber, owner, balance);
         this.principle = principle;
         this.creditScore = creditScore;
-        this.creditLimit = calculateCreditLimit();
+        this.creditLimit = calculateCreditLimit(creditScore);
     }
 
     /**
@@ -60,7 +60,7 @@ public class Credit extends Account {
         return creditScore;
     }
 
-    public double calculateCreditLimit() {
+    public double calculateCreditLimit(int creditScore) {
         // got these values from the table of creditScores and Credit Limit
         if(creditScore <= 580) creditLimit = new Random().nextInt(600) + 100;
         if(creditScore <= 669) creditLimit = new Random().nextInt(4300) + 700;
