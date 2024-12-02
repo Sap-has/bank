@@ -7,9 +7,9 @@ import java.util.Scanner;
 
 public class User {
     private final String EXIT_COMMAND = "exit";
-    private final HashMap<Integer, Customer> bankUserCustomer = userBankHandler.bankUserCustomer;
-    private final HashMap<Integer, String[]> bankUsers = userBankHandler.bankUsers;
-    private final HashMap<String, Integer> bankuserNames = userBankHandler.bankUserNames;
+    public final HashMap<Integer, Customer> bankUserCustomer = userBankHandler.bankUserCustomer;
+    public HashMap<Integer, String[]> bankUsers = userBankHandler.bankUsers;
+    public final HashMap<String, Integer> bankuserNames = userBankHandler.bankUserNames;
     private static final Map<String, Integer> headerIndexMap = userBankHandler.headerIndexMap;
     AccountOperations accountOperations = new AccountOperations();
     private final String CSV_FILE_PATH = "new-bank\\info\\Bank Users.csv";

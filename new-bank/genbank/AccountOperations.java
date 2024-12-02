@@ -7,7 +7,7 @@ public class AccountOperations {
     Scanner userInput = new Scanner(System.in);
     private int balanceIndex;
 
-    private static final HashMap<Integer, String[]> bankUsers = userBankHandler.bankUsers; // Reference from RunBank for simplicity
+    public HashMap<Integer, String[]> bankUsers = userBankHandler.bankUsers; // Reference from RunBank for simplicity
 
     public double calculateCreditLimit(int creditScore) {
         double creditLimit = 0.0;

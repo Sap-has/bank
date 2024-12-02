@@ -12,7 +12,7 @@ public class userBankHandler {
     /**
      * A HashMap that stores bank users' information, with the identification number as the key.
      */
-    static final HashMap<Integer, String[]> bankUsers = new HashMap<>();
+    public static HashMap<Integer, String[]> bankUsers = new HashMap<>();
 
     static final HashMap<String, Integer> bankUserNames = new HashMap<>();
 
