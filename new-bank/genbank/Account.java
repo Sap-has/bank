@@ -1,3 +1,4 @@
+package genbank;
 public abstract class Account {
     
     /**

@@ -1,3 +1,4 @@
+package genbank;
 public class Person {
     
     private String firstName;

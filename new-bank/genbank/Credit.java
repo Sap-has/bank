@@ -1,25 +1,47 @@
-public class Checking extends Account {
+package genbank;
+
+public class Credit extends Account {
+    private double creditLimit;
+
     /**
      * 
-     * @param accountNumber checking account number
-     * @param owner Person who owns checking account
-     * @param balance amount of money in checking account
+     * @param accountNumber credit account number
+     * @param owner person who owns credit account
+     * @param balance credit account balance
+     * @param creditLimit the credit account's credit limit
+     * @param principle the amount the person owes 
      */
-    public Checking(String accountNumber, Customer owner, double balance) {
+    public Credit(String accountNumber, Customer owner, double balance) {
         super(accountNumber, owner, balance);
     }
 
     /**
-     * @param amount money to deposit to checking account
+     * 
+     * @return credit account limit
+     */
+    public double getCreditLimit() {
+        return creditLimit;
+    }
+
+    /**
+     * 
+     * @param creditLimit set credit account limit
+     */
+    public void setCreditLimit(double creditLimit) {
+        this.creditLimit = creditLimit;
+    }
+
+    /**
+     * @param amount credit amount to deposit toward principle
      * @Override
-     * */
+     */
     public void depositTransaction(double amount, boolean logTransaction) {
         setBalance(getBalance() + amount);
     
         // Log the deposit only if logTransaction is true
         if (logTransaction) {
             TransactionLog log = new TransactionLog();
-            String logMessage = String.format("%s deposited $%.2f to Checking %s. New Balance: $%.2f",
+            String logMessage = String.format("%s deposited $%.2f to Credit %s. New Balance: $%.2f",
                     getOwner().getName(), amount, getAccountNumber(), getBalance());
             log.logTransaction(logMessage);
             log.saveLog();
@@ -27,12 +49,12 @@ public class Checking extends Account {
     }
 
     /**
-     * @param amount money to withdraw
-     * @throws Exception amount larger than account balance
+     * @param amount money to withdraw from credit account 
+     * @throws Exception if more money than credit limit is withdrawn
      * @Override
-    */
-    public void withdrawTransaction(double amount, boolean logTransaction) throws Exception  {
-        if (getBalance() < amount) {
+     */
+    public void withdrawTransaction(double amount, boolean logTransaction) throws Exception {
+        if (Math.abs(getBalance()) < amount && (creditLimit - Math.abs(getBalance())) < amount) {
             throw new insufficientFundsException();
         }
         setBalance(getBalance() - amount);
@@ -40,18 +62,17 @@ public class Checking extends Account {
         // Log the withdrawal only if logTransaction is true
         if (logTransaction) {
             TransactionLog log = new TransactionLog();
-            String logMessage = String.format("%s withdrew $%.2f from Checking %s. New Balance: $%.2f",
+            String logMessage = String.format("%s withdrew $%.2f from Credit %s. New Balance: $%.2f",
                     getOwner().getName(), amount, getAccountNumber(), getBalance());
             log.logTransaction(logMessage);
             log.saveLog();
         }
     }
-    
 
     /**
-     * @param toAccount transfer money to someone else's account
-     * @param amount money to transfer
-     * @throws Exception 
+     * @param toAccount account to transfer money to
+     * @param amount amount of money to transfer
+     * @throws Exception
      * @Override
      */
     public void transferTransaction(Account toAccount, double amount) throws Exception {
@@ -62,7 +83,7 @@ public class Checking extends Account {
     
             // Log the transfer
             TransactionLog log = new TransactionLog();
-            String logMessage = String.format("%s transferred $%.2f from Checking %s to %s's Account %s. Checking %s Balance: $%.2f. Account %s Balance: $%.2f.",
+            String logMessage = String.format("%s transferred $%.2f from Credit %s to %s's Account %s. Credit %s Balance: $%.2f. Account %s Balance: $%.2f.",
                     getOwner().getName(), amount, getAccountNumber(), toAccount.getOwner().getName(), toAccount.getAccountNumber(), getAccountNumber(), getBalance(), toAccount.getAccountNumber(), toAccount.getBalance());
             log.logTransaction(logMessage);
             log.saveLog();

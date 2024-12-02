@@ -1,3 +1,4 @@
+package genbank;
 
 import java.util.Scanner;
 
