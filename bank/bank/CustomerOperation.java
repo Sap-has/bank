@@ -41,7 +41,6 @@ public class CustomerOperation implements BankOperations {
         }else{
             customerId = Integer.parseInt(input);
         }
-        //TODO: handle errors if not name lol uwu
 
         if (!bankUsers.containsKey(customerId)) {
             System.out.println("ID does not exist.");

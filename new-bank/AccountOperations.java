@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.Random;
 import java.util.Scanner;
 
 public class AccountOperations {
@@ -6,6 +7,17 @@ public class AccountOperations {
     private int balanceIndex;
 
     private static final HashMap<Integer, String[]> bankUsers = userBankHandler.bankUsers; // Reference from RunBank for simplicity
+
+    public double calculateCreditLimit(int creditScore) {
+        double creditLimit = 0.0;
+        // got these values from the table of creditScores and Credit Limit
+        if(creditScore <= 580) creditLimit = new Random().nextInt(600) + 100;
+        if(creditScore <= 669) creditLimit = new Random().nextInt(4300) + 700;
+        if(creditScore <= 739) creditLimit = new Random().nextInt(2500) + 5000;
+        if(creditScore <= 799) creditLimit = new Random().nextInt(8500) + 7500;
+        else creditLimit = new Random().nextInt(9001)+ 16000;
+        return creditLimit;
+    }
 
     public void displayCustomerDetailsForManager(int customerId) {
         String[] userInfo = bankUsers.get(customerId);

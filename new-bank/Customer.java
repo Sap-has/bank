@@ -24,7 +24,7 @@ public class Customer extends Person {
         accounts.add(new Saving(savingAccountNumber, this, savingBalance)); 
 
         // Create Credit Account
-        accounts.add(new Credit(creditAccountNumber, this, creditBalance, creditMax, )); // Replace 0 with the credit score
+        accounts.add(new Credit(creditAccountNumber, this, 0)); // Replace 0 with the credit score
     }
 
     public int getCustomerID() {

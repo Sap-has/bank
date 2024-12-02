@@ -10,6 +10,7 @@ public class User {
     private final HashMap<Integer, String[]> bankUsers = userBankHandler.bankUsers;
     private final HashMap<String, Integer> bankuserNames = userBankHandler.bankUserNames;
     private static final Map<String, Integer> headerIndexMap = userBankHandler.headerIndexMap;
+    AccountOperations accountOperations = new AccountOperations();
     private final String CSV_FILE_PATH = "new-bank\\info\\Bank Users.csv";
     Customer customer;
     
@@ -17,9 +18,10 @@ public class User {
     public void handleNewUser() {
         String[] info = newUser();
         int creditScore = creditScoreValidation();
-        double creditLimit = 0;
+        double creditLimit = accountOperations.calculateCreditLimit(creditScore);
         info = createAccounts(info);
-        addNewUser(new Customer(info[0], info[1], info[2], info[3], info[4], Integer.parseInt(info[5]), info[6], Double.parseDouble(info[7]), info[8], Double.parseDouble(info[9]), info[10], Double.parseDouble(info[11]), Double.parseDouble(info[12])));
+        info[12] = Double.toString(creditLimit);
+        addNewUser(info, new Customer(info[0], info[1], info[2], info[3], info[4], Integer.parseInt(info[5]), info[6], Double.parseDouble(info[7]), info[8], Double.parseDouble(info[9]), info[10], Double.parseDouble(info[11]), Double.parseDouble(info[12])));
     }
 
     public int creditScoreValidation() {
@@ -114,21 +116,11 @@ public class User {
      *
      * @param newCustomer The new customer to be added.
      */
-    public void addNewUser(Customer newCustomer) {
-        String address = "\"" + newCustomer.getAddress() + "\"";
-        String[] userInfo = {
-            Integer.toString(newCustomer.getCustomerID()),
-            newCustomer.getFirstName(),
-            newCustomer.getLastName(),
-            newCustomer.getDateOfBirth(),
-            address,
-            newCustomer.getPhoneNum(),
-        };
-        userInfo = createAccounts(userInfo); // add account numbers and balances
-        bankUsers.put(newCustomer.getCustomerID(), userInfo);
+    public void addNewUser(String[] info, Customer newCustomer) {
+        bankUsers.put(newCustomer.getCustomerID(), info);
     
         // Optionally, update the CSV file to save the new user data
-        appendNewUserToCSV(userInfo);
+        appendNewUserToCSV(info);
         System.out.println("New user added successfully. Your ID is " + newCustomer.getCustomerID());
     }
 
