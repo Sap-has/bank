@@ -1,16 +1,9 @@
-package new_bank.operations;
-
 import java.util.ArrayList;
-
-import new_bank.Accounts.Account;
-import new_bank.Accounts.Checking;
-import new_bank.Accounts.Credit;
-import new_bank.Accounts.Saving;
 
 public class Customer extends Person {
     private int customerID;
     private String pw = "";
-    private ArrayList<Account> accounts; // 1. Checking, 2. Saving, 3.Credit
+    private ArrayList<Account> accounts;
 
     /**
      * @param name customer name
@@ -25,10 +18,10 @@ public class Customer extends Person {
         this.accounts = new ArrayList<>();
 
         // Create Checking Account
-        accounts.add(new Checking(checkingAccountNumber, this, checkingBalance, 0.0)); // Replace 0.0 with overdraft limit if applicable
+        accounts.add(new Checking(checkingAccountNumber, this, checkingBalance)); 
 
         // Create Saving Account
-        accounts.add(new Saving(savingAccountNumber, this, savingBalance, 0.0)); // Replace 0.0 with interest rate if applicable
+        accounts.add(new Saving(savingAccountNumber, this, savingBalance)); 
 
         // Create Credit Account
         accounts.add(new Credit(creditAccountNumber, this, creditBalance, creditMax, 0)); // Replace 0 with the credit score
@@ -38,16 +31,12 @@ public class Customer extends Person {
         return customerID;
     }
 
-    public String getPw() {
-        return pw;
-    }
-
     public void setPw(String pw) {
         this.pw = pw;
     }
-
-    public boolean checkPw(String givenPw) {
-        return pw.equals(givenPw);
+    
+    public String getPw() {
+        return pw;
     }
 
     public Account openAccount(String account) {
@@ -55,6 +44,4 @@ public class Customer extends Person {
         if(account.equals("2")) return accounts.get(1);
         return accounts.get(2);
     }
-    
-
 }

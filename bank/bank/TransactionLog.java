@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class TransactionLog {
     private ArrayList<String> logEntries = new ArrayList<>();
-    final String LOG_FILE = "info/log.txt";
+    final String LOG_FILE = "bank\\info\\log.txt";
 
     /**
      * Adds a new transaction entry to the log.

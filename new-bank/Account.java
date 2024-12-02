@@ -1,12 +1,3 @@
-package new_bank.Accounts;
-
-import new_bank.operations.Customer;
-
-/**
- * The Account class represents a bank account with operations such as deposits, withdrawals, 
- * and transfers. It is an abstract class that defines common behaviors and requires subclasses to 
- * implement specific transaction logic.
- */
 public abstract class Account {
     
     /**
@@ -102,5 +93,10 @@ public abstract class Account {
     /**
      * Displays the current balance of the account.
      */
-    public abstract void inquireBalance();
+    public void inquireBalance() {
+        TransactionLog log = new TransactionLog();
+        String logMessage = String.format("%s inquired balance of %s: $%.2f", getOwner().getName(), getAccountNumber(), getBalance());
+        log.logTransaction(logMessage);
+        log.saveLog();
+    }
 }

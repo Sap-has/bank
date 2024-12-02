@@ -1,4 +1,3 @@
-package new_bank;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +13,7 @@ import java.util.ArrayList;
  */
 public class TransactionLog {
     private ArrayList<String> logEntries = new ArrayList<>();
-    final String LOG_FILE = "info/log.txt";
+    final String LOG_FILE = "new-bank\\info\\log.txt";
 
     /**
      * Adds a new transaction entry to the log.

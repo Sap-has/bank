@@ -1,16 +1,4 @@
-package new_bank.Accounts;
-
-import new_bank.TransactionLog;
-import new_bank.operations.Customer;
-
-/**
- * Create saving account
- * @author Epifanio Sarinana
- * @author Kayra Dominguez
- */
 public class Saving extends Account {
-    private double interestRate;
-
     /**
      * 
      * @param accountNumber saving account number
@@ -18,34 +6,8 @@ public class Saving extends Account {
      * @param balance saving account balance
      * @param interestRate saving account interest rate
      */
-    public Saving(String accountNumber, Customer owner, double balance, double interestRate) {
+    public Saving(String accountNumber, Customer owner, double balance) {
         super(accountNumber, owner, balance);
-        this.interestRate = interestRate;
-    }
-
-    /**
-     * 
-     * @return saving account interest rate
-     */
-    public double getInterestRate() {
-        return interestRate;
-    }
-
-    /**
-     * 
-     * @param interestRate interest rate to give saving account
-     */
-    public void setInterestRate(double interestRate) {
-        this.interestRate = interestRate;
-    }
-
-
-    public void applyInterest() {
-        double interest = getBalance() * interestRate;
-        depositTransaction(interest, true);
-        TransactionLog log = new TransactionLog();
-        log.logTransaction("Applied interest of " + interest + " to Saving Account " + getAccountNumber());
-        log.saveLog();
     }
 
     /**
@@ -107,15 +69,5 @@ public class Saving extends Account {
         } catch (Exception e) {
             throw new Exception("Transfer failed: " + e.getMessage());
         }
-    }
-
-    /**
-     * @Override
-     */
-    public void inquireBalance() {
-        TransactionLog log = new TransactionLog();
-        String logMessage = String.format("%s inquired balance of %s: $%.2f", getOwner().getName(), getAccountNumber(), getBalance());
-        log.logTransaction(logMessage);
-        log.saveLog();
     }
 }

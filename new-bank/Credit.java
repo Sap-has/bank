@@ -1,14 +1,5 @@
-package new_bank.Accounts;
 import java.util.Random;
 
-import new_bank.TransactionLog;
-import new_bank.operations.Customer;
-
-/**
- * Creates a credit account
- * @author Epifanio Sarinana
- * @author Kayra Dominguez
- */
 public class Credit extends Account {
     private double creditLimit;
     private double principle;
@@ -102,7 +93,7 @@ public class Credit extends Account {
      * @Override
      */
     public void withdrawTransaction(double amount, boolean logTransaction) throws Exception {
-        if (!(amount > 0 && Math.abs(getBalance()) >= amount && (creditLimit - Math.abs(getBalance())) >= amount)) {
+        if (Math.abs(getBalance()) < amount && (creditLimit - Math.abs(getBalance())) < amount) {
             throw new Exception("Insufficient balance for withdrawal.");
         }
         setBalance(getBalance() - amount);
@@ -138,15 +129,5 @@ public class Credit extends Account {
         } catch (Exception e) {
             throw new Exception("Transfer failed: " + e.getMessage());
         }
-    }
-
-    /**
-     * @Override
-     */
-    public void inquireBalance() {
-        TransactionLog log = new TransactionLog();
-        String logMessage = String.format("%s inquired balance of %s: $%.2f", getOwner().getName(), getAccountNumber(), getBalance());
-        log.logTransaction(logMessage);
-        log.saveLog();
     }
 }

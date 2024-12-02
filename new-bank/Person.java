@@ -1,8 +1,3 @@
-package new_bank.operations;
-/**
- * The {@code Person} class represents a person with personal details such as name, date of birth,
- * address, and phone number. It provides methods to retrieve these details.
- */
 public class Person {
     
     private String firstName;
