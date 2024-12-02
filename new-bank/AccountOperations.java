@@ -7,6 +7,20 @@ public class AccountOperations {
 
     private static final HashMap<Integer, String[]> bankUsers = userBankHandler.bankUsers; // Reference from RunBank for simplicity
 
+    public void displayCustomerDetailsForManager(int customerId) {
+        String[] userInfo = bankUsers.get(customerId);
+        System.out.println("Customer Details:");
+        System.out.println("Name: " + userInfo[1] + " " + userInfo[2]);
+        System.out.println("Checking Account Number: " + userInfo[6]);
+        System.out.println("Checking Account Balance: $" + userInfo[7]);
+        System.out.println("Savings Account Number: " + userInfo[8]);
+        System.out.println("Savings Account Balance: $" + userInfo[9]);
+        System.out.println("Credit Account Number: " + userInfo[10]);
+        System.out.println("Credit Account Max: $" + userInfo[11]);
+        System.out.println("Credit Account Balance: $" + userInfo[12]);
+    }
+
+
     public String selectOperation(String input) {
         input.toLowerCase();
         switch (input) {

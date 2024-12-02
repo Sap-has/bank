@@ -86,7 +86,7 @@ public class GenerateFiles {
         }
     }
 
-    private void generateBankStatement(int customerId) throws Exception {
+    public void generateBankStatement(int customerId) throws Exception {
         String[] userInfo = bankUsers.get(customerId);
         String firstName = userInfo[1];
         String lastName = userInfo[2];
@@ -121,7 +121,7 @@ public class GenerateFiles {
 
             writer.write("Date\t\tDescription\tAccount\t\tWithdrawal\tDeposit\t\tBalance\n");
 
-            try (Scanner readLog = new Scanner(new File("info\\log.txt"))) {
+            try (Scanner readLog = new Scanner(new File("new-bank\\info\\log.txt"))) {
                 while (readLog.hasNextLine()) {
                     String[] logLine = readLog.nextLine().split(" ");
                     // Checking if the log matches the customer

@@ -1,0 +1,25 @@
+Customer Details:
+Name: Mickey Mouse
+Address: "1313 Disneyland Dr, Anaheim, CA 92802"
+Phone Number: 1000
+
+Accounts Details:
+Checking Account Number: 1000
+Checking Account Balance: $403.12
+
+Savings Account Number: 2000
+Savings Account Balance: $4479.46
+
+Credit Account Number: 3000
+Credit Account Max: $9151
+Credit Account Balance: $-1653.84
+
+Date		Description	Account		Withdrawal	Deposit		Balance
+2024-12-01	Transfer	1000		$100.00		____		$303.12.
+2024-12-01	Transfer	2000		$400.00		____		$4079.46.
+2024-12-01	Withdraw	1000.		$100.00		____		$203.12
+2024-12-01	Deposit		3000.		____		$500.00		$-753.84
+2024-12-01	Transfer	2000		$300.00		____		$3779.46.
+2024-12-01	Withdraw	2000.		$100.00		____		$3679.46
+2024-12-01	Transfer	1000		$17.97		____		$185.15.
+2024-12-01	Transfer	2000		$48.46		____		$3631.00.

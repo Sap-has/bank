@@ -48,7 +48,7 @@ public class userBankHandler {
     /**
      * A map that holds the indices of the CSV headers for easier access while parsing the file.
      */
-    HashMap<String, Integer> headerIndexMap = new HashMap<>();  
+    static HashMap<String, Integer> headerIndexMap = new HashMap<>();  
     
     /**
      * The path to the new CSV file where updated bank users' information will be saved.
